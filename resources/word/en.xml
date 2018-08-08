@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<word>
+    <info language="en"/>
+    <!--  0: menu -->
+    <screen id="0" number="6">
+        <sentence
+                s0="Empty Game"
+                s1="Continue the game"
+                s2="New Game"
+                s3="Loading game"
+                s4="Options"
+                s5="Quit"
+        />
+    </screen>
+
+    <!--  1: Pause/Escape overlay -->
+    <screen id="1" number="4">
+        <sentence
+                s0="Pause"
+                s1="Continue to play"
+                s2="Options"
+                s3="Quit to menu"
+        />
+    </screen>
+
+    <!--  2 : Death overlay -->
+    <screen id="2" number="3">
+        <sentence
+                s0="Game over"
+                s1="Retry"
+                s2="Quit to menu"
+        />
+    </screen>
+
+    <!--  3 - ++ : Option overlay -->
+    <screen id="3" number="9">
+        <sentence
+                s0="General"
+                s1="Video"
+                s2="Inputs"
+                s3="Fullscreen"
+                s4="In english"
+                s5="Restart the game to properly implement the changes."
+                s6="Music : "
+                s7="Noise : "
+                s8="Options"
+        />
+    </screen>
+</word>

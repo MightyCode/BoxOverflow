@@ -1,0 +1,9 @@
+<save>
+    <location map="0" point="4"/>
+    <life maxLife="2" life="2"/>
+
+    <tree for="0"/>
+    <tree for="1"/>
+    <tree for="2"/>
+    <tree for="3"/>
+</save>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <general language="en"/>
+    <window fullscreen="0" height="720" width="1280"/>
+    <inputs i0="0-256" i1="0-65" i10="0-333" i11="0-290" i12="0-291" i13="0-292" i14="0-293" i2="0-68" i3="0-87" i4="0-83" i5="0-32" i6="0-340" i7="0-70" i8="1-0" i9="0-334" number="15"/>
+    <sound music="50" noise="50"/>
+    <game number="-1"/>
+</config>
