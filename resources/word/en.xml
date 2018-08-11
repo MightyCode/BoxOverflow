@@ -4,7 +4,7 @@
     <!--  0: menu -->
     <screen id="0" number="6">
         <sentence
-                s0="Empty Game"
+                s0="Bow overflow"
                 s1="Continue the game"
                 s2="New Game"
                 s3="Loading game"
@@ -38,12 +38,22 @@
                 s0="General"
                 s1="Video"
                 s2="Inputs"
-                s3="Fullscreen"
+                s3=""
                 s4="In english"
                 s5="Restart the game to properly implement the changes."
                 s6="Music : "
                 s7="Noise : "
                 s8="Options"
+        />
+    </screen>
+
+    <!--  4 - ++ : Win overlay -->
+    <screen id="4" number="4">
+        <sentence
+                s0="Out of space"
+                s1="Next level"
+                s2="Retry"
+                s3="Go to menu"
         />
     </screen>
 </word>

@@ -4,7 +4,7 @@
     <!--  0: menu -->
     <screen id="0" number="6">
         <sentence
-                s0="Jeu vide"
+                s0="Bow Overflow"
                 s1="Continuer la partie"
                 s2="Charger une partie"
                 s3="Nouvelle partie"
@@ -38,12 +38,22 @@
                 s0="General"
                 s1="Vidéo"
                 s2="Controles"
-                s3="Plein écran"
+                s3=""
                 s4="En anglais"
                 s5="Veuillez redémarrer le jeu pour bien appliquer les changements."
                 s6="Music : "
                 s7="Bruit : "
                 s8="Options"
+        />
+    </screen>
+
+    <!--  4 - ++ : Win overlay -->
+    <screen id="4" number="4">
+        <sentence
+                s0="A court d'epace"
+                s1="Go to next level"
+                s2="Retry"
+                s3="Retourner au menu"
         />
     </screen>
 </word>
