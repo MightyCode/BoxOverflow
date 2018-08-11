@@ -4,10 +4,10 @@
     <!--  0: menu -->
     <screen id="0" number="6">
         <sentence
-                s0="Bow Overflow"
-                s1="Continuer la partie"
-                s2="Charger une partie"
-                s3="Nouvelle partie"
+                s0="Box Overflow"
+                s1="Play"
+                s2="Map précedente"
+                s3="Map suivante"
                 s4="Options du jeu"
                 s5="Quitter"
         />
@@ -23,12 +23,10 @@
         />
     </screen>
 
-    <!--  2 : Death overlay -->
-    <screen id="2" number="3">
+    <!--  2 : Credit overlay -->
+    <screen id="2" number="1">
         <sentence
-                s0="Game over"
-                s1="Recommencer"
-                s2="Quitter vers le menu"
+                s0=""
         />
     </screen>
 
@@ -38,9 +36,9 @@
                 s0="General"
                 s1="Vidéo"
                 s2="Controles"
-                s3=""
+                s3="Mode vomi"
                 s4="En anglais"
-                s5="Veuillez redémarrer le jeu pour bien appliquer les changements."
+                s5=""
                 s6="Music : "
                 s7="Bruit : "
                 s8="Options"
@@ -51,8 +49,8 @@
     <screen id="4" number="4">
         <sentence
                 s0="A court d'epace"
-                s1="Go to next level"
-                s2="Retry"
+                s1="Prochain niveau"
+                s2="Recommencer"
                 s3="Retourner au menu"
         />
     </screen>

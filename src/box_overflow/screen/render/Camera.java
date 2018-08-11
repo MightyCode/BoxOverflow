@@ -17,8 +17,6 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
  * @version 1.0
  */
 public class Camera {
-
-    private Vec2 pos;
     /**
      * Map position x.
      * This variable contains the position y of the beginning of the rendering of the map.
@@ -47,20 +45,11 @@ public class Camera {
 
 
     /**
-     * Add pixels to camera position.
-     * This variable contains the number of pixels add or remove of the position of camera.
-     */
-    private int addCamera;
-
-    /**
-     * Max offset between the entity and the middle of screen.
-     */
-    private final int maxOffset = Window.width / 10;
-
-    /**
      * The entity that will follow the camera.
      */
     private Emoveable user;
+
+    private boolean breake;
 
 
     /**
@@ -93,22 +82,29 @@ public class Camera {
     }
 
     public void setPosition(boolean isTween){
+        if(breake){
+            breake = false;
+            return;
+        }
         int posX = (int)( Window.width / 2 - user.getPos().getX()*GameScreen.tile);
         int posY = (int)( Window.height / 2 - user.getPos().getY()*GameScreen.tile);
+        setPosition(posX, posY, isTween);
+        breake = false;
+    }
 
+    public void setPosition(int posX, int posY, boolean isTween){
+        breake = true;
         float newTweenX = (isTween)? tweenX : 1;
         float newTweenY = (isTween)? tweenY : 1;
 
-        glTranslatef((int)((posX - this.posX + addCamera) * newTweenX),(int)((posY - this.posY) * newTweenY),0);
+        glTranslatef((int)((posX - this.posX) * newTweenX),(int)((posY - this.posY) * newTweenY),0);
 
-        this.posX += (int)((posX - this.posX + addCamera) * newTweenX);
+        this.posX += (int)((posX - this.posX) * newTweenX);
         this.posY += (int)((posY - this.posY) * newTweenY);
         //fixBounds();
     }
 
-    /**
-     * Set the corner of the map.
-     */
+    /*
     private void fixBounds() {
         if(posX > xMin){
             glTranslatef(xMin - posX,0,0);
@@ -125,19 +121,8 @@ public class Camera {
             glTranslatef(0, yMax - posY ,0);
             posY = yMax;
         }
+    }*/
 
-
-    }
-
-    /**
-     * The effect of the transition.
-     *
-     * @param color The color of the transition.
-     * @param alpha The alpha of the transition.
-     */
-    public void transition(int color, float alpha){
-        ShapeRenderer.rectC(new Vec2(0, 0), new Vec2(Window.width, Window.height), new Color4(color, color, color, alpha));
-    }
 
     /**
      * Set the camera tween.

@@ -4,6 +4,12 @@ package box_overflow.game;
 import box_overflow.screen.render.texture.Texture;
 
 public class Tile {
+
+    public static final int EMPTY = 0;
+    public static final int SOLID = 1;
+    public static final int BEGIN = 2;
+    public static final int END = 3;
+
     private Texture image;
     private int type;
 

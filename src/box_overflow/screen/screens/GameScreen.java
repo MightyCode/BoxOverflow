@@ -4,6 +4,7 @@ import box_overflow.entity.type.Player;
 import box_overflow.game.Hud;
 import box_overflow.entity.EntityManager;
 import box_overflow.game.LevelManager;
+import box_overflow.main.Config;
 import box_overflow.screen.overlay.*;
 import box_overflow.screen.render.Render;
 import box_overflow.screen.GameManager;
@@ -18,6 +19,8 @@ import box_overflow.util.math.Vec2;
  * @version 1.0
  */
 public class GameScreen extends Screen {
+
+    public static int GAMETILESIZE = 64;
 
     public static int tile = 64;
 
@@ -35,21 +38,13 @@ public class GameScreen extends Screen {
     public static final int STATE_NORMAL = 0;
     public static final int STATE_PAUSE = 1;
     public static final int STATE_OPTION = 2;
-    public static final int STATE_DEATH = 3;
-    public static final int STATE_WIN = 4;
+    public static final int STATE_WIN = 3;
 
     /**
      * Pause Overlay.
      * This variable contains the pause overlay.
      */
     private final PauseOverlay pause;
-
-    /**
-     * Death Overlay.
-     * This variable contains the overlay of death that appears when the player dies.
-     */
-    private final DeathOverlay death;
-
     /**
      * Option overlay.
      * This variable contains the overlay where the player change its options.
@@ -86,17 +81,17 @@ public class GameScreen extends Screen {
         screenState = STATE_NORMAL;
         // Init screen's overlay
         pause = new PauseOverlay(this);
-        death = new DeathOverlay(this);
         option = new OptionOverlay(this){
             @Override
             public void quit(){
                 Screen.setState(STATE_PAUSE);
+                Config.close();
             }
         };
 
         win = new WinOverlay(this);
 
-        Player player = new Player(this,new Vec2(tile));
+        Player player = new Player(this,new Vec2(1));
 
         entityManager.setPlayer(player);
         GameManager.CAMERA.setEntityToCamera(player);
@@ -118,12 +113,12 @@ public class GameScreen extends Screen {
             case STATE_PAUSE:
                 pause.update();
                 break;
-            case STATE_DEATH:
-                death.update();
-                break;
             case STATE_OPTION:
                 option.update();
                 break;
+            case STATE_WIN:
+                lvm.finish();
+                win.update();
             default:
                 updateGame();
                 break;
@@ -164,10 +159,9 @@ public class GameScreen extends Screen {
             case STATE_OPTION:
                 option.display();
                 break;
-            case STATE_DEATH:
+            case STATE_WIN :
                 displayGame();
-                death.display();
-                break;
+                win.display();
         }
     }
 
@@ -185,8 +179,8 @@ public class GameScreen extends Screen {
     public void unload() {
         hud.unload();
         pause.unload();
-        death.unload();
         option.unload();
+        win.unload();
         entityManager.removeAll();
         entityManager.setPlayer(null);
         lvm.unload();

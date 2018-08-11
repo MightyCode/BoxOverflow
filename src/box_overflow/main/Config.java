@@ -38,6 +38,14 @@ public class Config {
      */
     private static String language;
 
+    private static int currentMap;
+
+    private static int numberOfMap;
+
+    private static int mapConcluded[];
+
+    private static boolean spew;
+
     /**
      * Current noiseVolume.
      */
@@ -179,4 +187,30 @@ public class Config {
      * Save configurations on game's close.
      */
     public static void close(){ XmlReader.saveConfiguration(); }
+
+    public static int getCurrentMap() {
+        return currentMap;
+    }
+
+    public static void setCurrentMap(int attribute) { currentMap = attribute; }
+
+    public static void setNumberOfMap(int attribute) { numberOfMap = attribute; }
+
+    public static int getNumberOfMap() { return numberOfMap; }
+
+    public static int getMapConcluded(int mapIndex){return mapConcluded[mapIndex];}
+
+    public static int[] getMapsConcluded(){return mapConcluded;}
+
+    public static void setMapConcluded(int mapConcluded[]){Config.mapConcluded = mapConcluded;}
+
+    public static void setMapConcluded(int index, int value){ if(index < numberOfMap) Config.mapConcluded[index-1] = value;}
+
+    public static void setSpew(boolean newState){
+        spew = newState;
+    }
+
+    public static boolean getSpew(){
+        return spew;
+    }
 }

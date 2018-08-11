@@ -1,12 +1,15 @@
 package box_overflow.game;
 
+import box_overflow.main.Config;
+import box_overflow.main.Window;
+import box_overflow.screen.GameManager;
 import box_overflow.screen.render.texture.TextureRenderer;
 import box_overflow.screen.screens.GameScreen;
 import box_overflow.util.XmlReader;
 import box_overflow.util.math.Vec2;
 
 public class LevelManager {
-    private int currentLevel = 4;
+    private int currentLevel = 2;
     private int[][][] currentMap;
     private Tile tileset[];
     private int posX, posY;
@@ -14,41 +17,59 @@ public class LevelManager {
     private int blockPosed;
     private int blockToPose;
 
+    private Vec2 path[];
+
+    private int tWith, tHeight;
+    private int counter, count;
+    private int time;
+
     public LevelManager(){
-        tileset = new Tile[16];
+        tileset = new Tile[17];
         tileset[0] = new Tile();
         tileset[1] = new Tile("/textures/tileset/ground.png",0);
         tileset[2] = new Tile("/textures/tileset/box1.png",1);
         tileset[3] = new Tile("/textures/tileset/box2.png",1);
         tileset[4] = new Tile("/textures/tileset/boxp1.png",1);
         tileset[5] = new Tile("/textures/tileset/boxp2.png",1);
-        tileset[6] = new Tile("/textures/tileset/arrow-left.png",0);
-        tileset[7] = new Tile("/textures/tileset/arrow-up.png",0);
-        tileset[8] = new Tile("/textures/tileset/arrow-right.png",0);
-        tileset[9] = new Tile("/textures/tileset/arrow-down.png",0);
-        tileset[10] = new Tile("/textures/tileset/end-left.png",0);
-        tileset[11] = new Tile("/textures/tileset/end-up.png",0);
-        tileset[12] = new Tile("/textures/tileset/end-right.png",0);
-        tileset[13] = new Tile("/textures/tileset/end-down.png",0);
+        tileset[6] = new Tile("/textures/tileset/arrow-left.png",2);
+        tileset[7] = new Tile("/textures/tileset/arrow-up.png",2);
+        tileset[8] = new Tile("/textures/tileset/arrow-right.png",2);
+        tileset[9] = new Tile("/textures/tileset/arrow-down.png",2);
+        tileset[10] = new Tile("/textures/tileset/end-left.png",3);
+        tileset[11] = new Tile("/textures/tileset/end-up.png",3);
+        tileset[12] = new Tile("/textures/tileset/end-right.png",3);
+        tileset[13] = new Tile("/textures/tileset/end-down.png",3);
         tileset[14] = new Tile("/textures/tileset/pillar.png",1);
-        tileset[15] = new Tile("/textures/tileset/tetepillar.png",1);
+        tileset[15] = new Tile("/textures/tileset/pillarh.png",1);
+        tileset[16] = new Tile("/textures/tileset/door.png",1);
     }
 
     public void load(){
+        count = 0;
+        counter = 0;
+        GameScreen.tile = GameScreen.GAMETILESIZE;
+        currentLevel = Config.getCurrentMap();
         currentMap = XmlReader.loadMap(currentLevel);
         chargeConfig();
         GameScreen.entityManager.setPosition(posX,posY);
+        path = new Vec2[blockToPose];
+        time = 60*5/blockToPose;
     }
 
     public void update(){
-        Vec2 pos = GameScreen.entityManager.getPlayer().getPos();
-        if(endX == pos.getX()){
-            if(endY == pos.getY()){
-                if(blockPosed >= blockToPose) {
-                    GameScreen.setState(GameScreen.STATE_WIN);
+        try {
+            Vec2 pos = GameScreen.entityManager.getPlayer().getPos();
+            if(endX == pos.getX()){
+                if(endY == pos.getY()){
+                    if(blockPosed >= blockToPose) {
+                        Config.setMapConcluded(currentLevel,2);
+                        Config.setMapConcluded(currentLevel+1,1);
+                        GameScreen.setState(GameScreen.STATE_WIN);
+                        Config.close();
+                    }
                 }
             }
-        }
+        } catch (Exception e) {}
     }
 
     public void display(){
@@ -74,12 +95,13 @@ public class LevelManager {
 
     private void chargeConfig(){
         blockToPose = 0;
+        blockPosed = 0;
         for(int i = 0; i < currentMap[0].length; i++){
             for(int j = 0; j < currentMap[0][i].length; j++){
-                if(currentMap[0][i][j] == 6 || currentMap[0][i][j] == 7 || currentMap[0][i][j] == 8 || currentMap[0][i][j] == 9){
+                if(tileset[currentMap[0][i][j]].getType() == Tile.BEGIN){
                     posX = j;
                     posY = i;
-                } else if(currentMap[0][i][j] == 10 || currentMap[0][i][j] == 11 || currentMap[0][i][j] == 12 || currentMap[0][i][j] == 13){
+                } else if(tileset[currentMap[0][i][j]].getType() == Tile.END){
                     endX = j;
                     endY = i;
                 }
@@ -93,11 +115,6 @@ public class LevelManager {
         }
     }
 
-    public void reset(){
-        currentMap = XmlReader.loadMap(currentLevel);
-        GameScreen.entityManager.setPosition(posX, posY);
-    }
-
     public boolean isSolid(int posX, int posY){
         if(posX < 0 || posX > currentMap[1][0].length-1)return true;
 
@@ -107,17 +124,57 @@ public class LevelManager {
     }
 
     public void addBlock(int posX, int posY){
-        if(currentMap[0][posY][posX] == 1){
+        if(currentMap[0][posY][posX] == 1 ){
             currentMap[0][posY][posX] = 0;
             currentMap[1][posY][posX] = 4;
             currentMap[2][posY-1][posX] = 5;
+            path[blockPosed] = new Vec2(posX,posY);
             blockPosed++;
+            System.out.println("Block:" + blockPosed + "/" + blockToPose);
         }
     }
 
     public void unload(){
         for(Tile tile : tileset){
             tile.unload();
+        }
+    }
+
+    public void finish() {
+        if(Config.getSpew()){
+            finishbouuuuu();
+            return;
+        }
+
+        tHeight = currentMap[0].length*GameScreen.tile;
+        tWith = currentMap[0][0].length*GameScreen.tile;
+        if (tHeight > Window.height || tWith > Window.width) {
+            GameScreen.tile--;
+        } else {
+            if (count < blockToPose) {
+                if (counter > time) {
+                    currentMap[1][(int) path[count].getY()][(int) path[count].getX()] = 2;
+                    currentMap[2][(int) path[count].getY() - 1][(int) path[count].getX()] = 3;
+                    count++;
+                    counter = 0;
+                }
+                counter++;
+            }
+        }
+        GameManager.CAMERA.setPosition(Window.width / 2 - tWith/2,Window.height / 2 - tHeight/2,true);
+    }
+
+    private void finishbouuuuu(){
+        if (count < blockToPose) {
+            GameManager.CAMERA.setPosition( (int)(Window.width / 2 - path[count].getX()*GameScreen.tile),
+                        ((int)(Window.height / 2 - path[count].getY()*GameScreen.tile)),true);
+            if (counter > time) {
+                currentMap[1][(int) path[count].getY()][(int) path[count].getX()] = 2;
+                currentMap[2][(int) path[count].getY() - 1][(int) path[count].getX()] = 3;
+                count++;
+                counter = 0;
+            }
+            counter++;
         }
     }
 }

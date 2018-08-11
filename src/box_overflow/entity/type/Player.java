@@ -4,7 +4,6 @@ import box_overflow.entity.Eobject.Echaracter;
 import box_overflow.screen.GameManager;
 import box_overflow.screen.render.shape.ShapeRenderer;
 import box_overflow.screen.screens.GameScreen;
-import box_overflow.screen.screens.Screen;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
 
@@ -54,9 +53,9 @@ public class Player extends Echaracter {
 		}
 
 		if (GameManager.inputsManager.inputPressed(5)) {
-			GameScreen.lvm.reset();
-			nextPosX = 0;
-			nextPosY = 0;
+			GameScreen.lvm.load();
+			nextPosX = 979246978;
+			nextPosY = 9462259;
 		}
 
 		if(nextPosX != pos.getX() || nextPosY != pos.getY()) {
@@ -82,14 +81,13 @@ public class Player extends Echaracter {
 						- size.getX(), size.getY());
 			}
 		}*/
-		ShapeRenderer.rect(pos.getX()*GameScreen.tile,pos.getY()*GameScreen.tile,size.getX(), size.getY(),new Color4(0.2f,0.2f,0.2f,1f));
+		ShapeRenderer.rect(pos.getX()*GameScreen.tile,pos.getY()*GameScreen.tile,size.getX()*GameScreen.tile, size.getY()*GameScreen.tile,new Color4(0.2f,0.2f,0.2f,1f));
 	}
 
 	/**
 	 * When the player die
 	 */
 	public void died(){
-		Screen.setState(GameScreen.STATE_DEATH);
-		super.died();
+		GameScreen.lvm.load();
 	}
 }

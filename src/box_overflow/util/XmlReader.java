@@ -126,6 +126,18 @@ public abstract class XmlReader {
 			Config.setMusicVolume(Integer.parseInt(tag.getAttribute("music")));
 			Config.setNoiseVolume(Integer.parseInt(tag.getAttribute("noise")));
 
+			tag = search("game",root);
+			Config.setCurrentMap(Integer.parseInt(tag.getAttribute("number")));
+			Config.setSpew(tag.getAttribute("spew").equals("1"));
+
+			tag = search("save",root);
+			Config.setNumberOfMap(Integer.parseInt(tag.getAttribute("numbmap")));
+			int[] mapConcluded = new int[Config.getNumberOfMap()];
+			for(int i = 0 ; i < mapConcluded.length;i++){
+				mapConcluded[i] = Integer.parseInt(tag.getAttribute("map"+String.valueOf(i+1)));
+			}
+			Config.setMapConcluded(mapConcluded);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -159,6 +171,17 @@ public abstract class XmlReader {
 				} else{
 					tag.setAttribute("i"+i,"1-"+inputs[i][1]);
 				}
+			}
+			tag = search("game", root);
+
+			tag.setAttribute("number", String.valueOf(Config.getCurrentMap()));
+			tag.setAttribute("spew", Config.getSpew()?"1":"0");
+
+			tag = search("save", root);
+
+			int[] mapConcluded = Config.getMapsConcluded();
+			for(int i = 0 ; i < mapConcluded.length;i++){
+				tag.setAttribute("map"+String.valueOf(i+1), String.valueOf(mapConcluded[i]));
 			}
 
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();

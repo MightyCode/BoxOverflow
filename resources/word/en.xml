@@ -4,10 +4,10 @@
     <!--  0: menu -->
     <screen id="0" number="6">
         <sentence
-                s0="Bow overflow"
-                s1="Continue the game"
-                s2="New Game"
-                s3="Loading game"
+                s0="Box overflow"
+                s1="Play"
+                s2="Previous map"
+                s3="Next map"
                 s4="Options"
                 s5="Quit"
         />
@@ -23,12 +23,10 @@
         />
     </screen>
 
-    <!--  2 : Death overlay -->
-    <screen id="2" number="3">
+    <!--  2 : Credit overlay -->
+    <screen id="2" number="0">
         <sentence
-                s0="Game over"
-                s1="Retry"
-                s2="Quit to menu"
+                s0=""
         />
     </screen>
 
@@ -38,9 +36,9 @@
                 s0="General"
                 s1="Video"
                 s2="Inputs"
-                s3=""
+                s3="Spew mode"
                 s4="In english"
-                s5="Restart the game to properly implement the changes."
+                s5=""
                 s6="Music : "
                 s7="Noise : "
                 s8="Options"

@@ -43,7 +43,7 @@ public class EntityManager {
         for(Eobject object : objects){
             object.update();
         }
-        player.update();
+        if(player != null) player.update();
     }
 
     public void dispose(){

@@ -4,5 +4,6 @@
     <window height="720" width="1280"/>
     <inputs i0="0-256" i1="0-263" i2="0-265" i3="0-262" i4="0-264" i5="0-82" number="6"/>
     <sound music="50" noise="50"/>
-    <game number="-1"/>
+    <game number="1" spew="0"/>
+    <save numbmap="4" map1="1" map2="0" map3="0" map4="0"/>
 </config>

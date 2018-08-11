@@ -133,4 +133,8 @@ public class GameManager {
         currentScreen = null;
         StaticFonts.unload();
     }
+
+    public Screen getScreen(){
+        return currentScreen;
+    }
 }

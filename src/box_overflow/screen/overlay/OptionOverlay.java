@@ -27,7 +27,7 @@ public class OptionOverlay extends Overlay {
     /**
      * Font renderer to render the help text.q
      */
-    private FontRenderer option, help;
+    private FontRenderer option;
 
     /**
      * GUIButton to choose the categories
@@ -37,7 +37,7 @@ public class OptionOverlay extends Overlay {
     /**
      * Inputs for general
      */
-    private GUICheckBox language;
+    private GUICheckBox language, spew;
     private GUISlider musicVolume;
     private GUISlider noiseVolume;
 
@@ -130,11 +130,20 @@ public class OptionOverlay extends Overlay {
                 SoundManager.setNoiseVolume((int)value);
             }
         };
-
-        help = new FontRenderer(TextManager.OPTIONS,5, StaticFonts.IBM, Window.height*0.04f,
-                new Vec2(Window.width * 0.5f, Window.height * 0.95f), Color4.BLACK);
         option = new FontRenderer(TextManager.OPTIONS,8, StaticFonts.IBM, Window.height*0.1f,
                 new Vec2(Window.width * 0.5f, Window.height * 0.05f), Color4.BLACK);
+
+        spew = new GUICheckBox(
+                new Vec2(Window.width*0.5f, Window.height*0.41f),
+                new Vec2(Window.width*0.125f, Window.height*0.1f),
+                TextManager.OPTIONS,3, StaticFonts.monofonto, textColor, hoverTextColor
+        ){
+            @Override
+            public void action () {
+                Config.setSpew(GUIState == 1);
+            }
+        };
+        spew.setState(Config.getSpew()?1:0);
     }
 
     /**
@@ -154,6 +163,7 @@ public class OptionOverlay extends Overlay {
                 noiseVolume.update();
                 break;
             case 1:
+                spew.update();
                 break;
             case 2:
                 break;
@@ -178,12 +188,11 @@ public class OptionOverlay extends Overlay {
                 noiseVolume.display();
                 break;
             case 1:
+                spew.display();
                 break;
             case 2:
                 break;
         }
-
-        help.render();
     }
 
     /**
@@ -210,9 +219,6 @@ public class OptionOverlay extends Overlay {
         musicVolume.unload();
         noiseVolume.unload();
 
-        // Control
-
-        // Font renderer
-        help.unload();
+        spew.unload();
     }
 }
