@@ -95,7 +95,6 @@ public class GameScreen extends Screen {
 
         entityManager.setPlayer(player);
         GameManager.CAMERA.setEntityToCamera(player);
-        GameManager.CAMERA.setTween(0.25f,0.25f);
         GameManager.CAMERA.setPosition(false);
 
         lvm = new LevelManager();

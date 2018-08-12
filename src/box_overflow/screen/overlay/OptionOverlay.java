@@ -176,7 +176,7 @@ public class OptionOverlay extends Overlay {
     public void display() {
         Render.clear(new Color4(0.8f));
 
-        option.render();
+        option.renderC();
         general.display();
         video.display();
         inputs.display();

@@ -4,6 +4,7 @@ import box_overflow.util.math.Vec2;
 import box_overflow.screen.GameManager;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 /**
  * Texture rendering abstract class.
@@ -23,6 +24,10 @@ public class TextureRenderer {
      * @param sizeY Image's height.
      */
     public static void image(float posX, float posY, float sizeX, float sizeY, float alpha) {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glColor4f(1.f, 1.f, 1.f, alpha);
 
         glBegin(GL_QUADS);

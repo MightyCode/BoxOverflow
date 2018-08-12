@@ -133,9 +133,12 @@ public abstract class XmlReader {
 			tag = search("save",root);
 			Config.setNumberOfMap(Integer.parseInt(tag.getAttribute("numbmap")));
 			int[] mapConcluded = new int[Config.getNumberOfMap()];
-			for(int i = 0 ; i < mapConcluded.length;i++){
+			int last = 1;
+			for(int i = 0 ; i < mapConcluded.length; i++){
 				mapConcluded[i] = Integer.parseInt(tag.getAttribute("map"+String.valueOf(i+1)));
+				if(mapConcluded[i] == 1) last = i+1;
 			}
+			Config.setLastMap(last);
 			Config.setMapConcluded(mapConcluded);
 
 		} catch (Exception e) {

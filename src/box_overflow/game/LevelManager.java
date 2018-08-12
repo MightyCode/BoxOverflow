@@ -8,6 +8,8 @@ import box_overflow.screen.screens.GameScreen;
 import box_overflow.util.XmlReader;
 import box_overflow.util.math.Vec2;
 
+import java.lang.reflect.Executable;
+
 public class LevelManager {
     private int currentLevel = 2;
     private int[][][] currentMap;
@@ -63,13 +65,18 @@ public class LevelManager {
                 if(endY == pos.getY()){
                     if(blockPosed >= blockToPose) {
                         Config.setMapConcluded(currentLevel,2);
-                        Config.setMapConcluded(currentLevel+1,1);
+                        if(Config.getMapConcluded(currentLevel+1) == 0){
+                            Config.setMapConcluded(currentLevel+1,1);
+                            Config.setLastMap(currentLevel+1);
+                        }
                         GameScreen.setState(GameScreen.STATE_WIN);
                         Config.close();
                     }
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void display(){
@@ -130,7 +137,6 @@ public class LevelManager {
             currentMap[2][posY-1][posX] = 5;
             path[blockPosed] = new Vec2(posX,posY);
             blockPosed++;
-            System.out.println("Block:" + blockPosed + "/" + blockToPose);
         }
     }
 

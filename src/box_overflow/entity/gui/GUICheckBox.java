@@ -99,7 +99,7 @@ public class GUICheckBox extends GUIComponent {
     public void display() {
         animations.get(animationPlayed).bind();
         TextureRenderer.imageC(pos,size,1f);
-        fontRenderer.render();
+        fontRenderer.renderC();
     }
 
     /**

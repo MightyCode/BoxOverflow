@@ -122,7 +122,7 @@ public class PauseOverlay extends Overlay{
                 new Vec2(0.8f * Window.width, 0.75f * Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.5f));
 
         // Textures and button
-        pause.render();
+        pause.renderC();
 
         continuer.display();
         options.display();

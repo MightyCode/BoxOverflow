@@ -42,9 +42,13 @@ public class WinOverlay extends Overlay{
         ){
             @Override
             public void action () {
-                Config.setCurrentMap(Config.getCurrentMap()+1);
-                GameScreen.lvm.load();
-                GameScreen.setState(GameScreen.STATE_NORMAL);
+                if(Config.getNumberOfMap() > Config.getCurrentMap()) {
+                    Config.setCurrentMap(Config.getCurrentMap() + 1);
+                    GameScreen.lvm.load();
+                    GameScreen.setState(GameScreen.STATE_NORMAL);
+                } else {
+                    fontRenderer.setWordNumber(TextManager.WIN,4);
+                }
             }
         };
 
@@ -95,7 +99,7 @@ public class WinOverlay extends Overlay{
         ShapeRenderer.rectC(new Vec2(0.1f * Window.width, 0.15f * Window.height),
                 new Vec2(0.8f * Window.width, 0.75f * Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.4f));
 
-        win.render();
+        win.renderC();
         next.display();
         retry.display();
         menu.display();

@@ -34,7 +34,7 @@ public class GUIButton extends GUIComponent {
     /**
      * The font renderer use by the button.
      */
-    private FontRenderer fontRenderer;
+    protected FontRenderer fontRenderer;
 
     /**
      * GUIButton class constructor with the string to display.
@@ -107,10 +107,10 @@ public class GUIButton extends GUIComponent {
     public void display() {
         if (!mouseOver) {
             ShapeRenderer.rectC(pos, size, backgroundColor);
-            fontRenderer.render();
+            fontRenderer.renderC();
         } else {
             ShapeRenderer.rectC(pos, size, hoverColor);
-            fontRenderer.render();
+            fontRenderer.renderC();
         }
     }
 

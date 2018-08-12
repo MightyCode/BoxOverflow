@@ -1,5 +1,6 @@
 package box_overflow.screen.screens;
 
+import box_overflow.inputs.KeyboardManager;
 import box_overflow.main.Box_Overflow;
 import box_overflow.main.Config;
 import box_overflow.screen.render.texture.Texture;
@@ -15,6 +16,8 @@ import box_overflow.entity.gui.GUIButton;
 import box_overflow.main.Window;
 import box_overflow.screen.overlay.OptionOverlay;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 /**
  * Menu class.
  * This class is the menu screen.
@@ -24,24 +27,18 @@ import box_overflow.screen.overlay.OptionOverlay;
  */
 public class MenuScreen extends Screen {
 
-    /**
-     * The font renderer for the menu title.
-     */
     private FontRenderer admin;
-    private FontRenderer number;
+    private FontRenderer[] levels;
     private int currentMap;
 
-    /**
-     * GUIButtons used on the menu.
-     */
     private GUIButton goGame, previous, next, options, quit;
 
     private Texture background;
-
-    /**
-     * The option overlay to change the current parameters.
-     */
     private OptionOverlay option;
+
+    private Texture win,play,lock;
+    private Texture[] textures;
+    private float offset = Window.width*0.2f;
 
     /**
      * Menu screen class constructor.
@@ -54,7 +51,7 @@ public class MenuScreen extends Screen {
         Render.setClearColor(new Color4(0.8f,0.8f,0.8f, 0.8f));
         currentMap = Config.getCurrentMap();
         // Security
-        if(Config.getMapConcluded(currentMap-1) == 0){
+        if(Config.getMapConcluded(currentMap) == 0){
             int i;
             for(i = Config.getNumberOfMap()-1; i > 0 ; i--){
                 if(Config.getMapConcluded(i) != 0){
@@ -73,9 +70,6 @@ public class MenuScreen extends Screen {
 
         /*title = new FontRenderer(TextManager.MENU,0, StaticFonts.monofonto, Window.width*0.06f,
                 new Vec2(Window.width * 0.5f, Window.height * 0.13f), Color4.BLACK);*/
-
-        number = new FontRenderer("Map : " + currentMap, StaticFonts.monofonto, Window.width*0.02f,
-                new Vec2(Window.width * 0.5f, Window.height * 0.30f), Color4.BLACK);
 
         if(Box_Overflow.admin) admin = new FontRenderer("Mode admin", StaticFonts.monofonto, Window.width*0.02f,
                 new Vec2(Window.width * 0.5f, Window.height * 0.90f), new Color4(0.2f,0.2f,0.2f,0.9f));
@@ -117,7 +111,7 @@ public class MenuScreen extends Screen {
         ){
             @Override
             public void action() {
-                ((MenuScreen)Window.gameManager.getScreen()).partyNumber(-1);
+                ((MenuScreen)Window.gameManager.getScreen()).currentMap(-1);
             }
         };
 
@@ -133,7 +127,7 @@ public class MenuScreen extends Screen {
         ) {
             @Override
             public void action() {
-                ((MenuScreen)Window.gameManager.getScreen()).partyNumber(1);
+                ((MenuScreen)Window.gameManager.getScreen()).currentMap(1);
             }
         };
 
@@ -178,7 +172,29 @@ public class MenuScreen extends Screen {
             }
         };
 
+        levels = new FontRenderer[Config.getNumberOfMap()];
         background = new Texture("/textures/menu/background.png");
+        win = new Texture("/textures/menu/win.png");
+        play = new Texture("/textures/menu/play.png");
+        lock = new Texture("/textures/menu/lock.png");
+        textures = new Texture[Config.getNumberOfMap()];
+        for(int i = 0; i < Config.getNumberOfMap(); i++){
+            textures[i] = new Texture();
+            System.out.println();
+            switch(Config.getMapConcluded(i+1)){
+                case 0:
+                    textures[i] = lock;
+                    break;
+                case 1 :
+                    textures[i] = play;
+                    break;
+                case 2 :
+                    textures[i] = win;
+                    break;
+            }
+        }
+        placeFont();
+        GameManager.CAMERA.setPosition(0,0,false);
     }
 
     /**
@@ -187,6 +203,10 @@ public class MenuScreen extends Screen {
     public void update() {
         switch (screenState) {
             case 0:
+                if(GameManager.keyboardManager.keyPressed(GLFW_KEY_LEFT))currentMap(-1);
+                else if(GameManager.keyboardManager.keyPressed(GLFW_KEY_RIGHT))currentMap(1);
+                if(KeyboardManager.key(GLFW_KEY_ENTER)) Window.gameManager.setScreen(GameManager.GAMESCREEN);
+
                 goGame.update();
                 next.update();
                 previous.update();
@@ -207,16 +227,23 @@ public class MenuScreen extends Screen {
         Render.clear();
         switch (screenState) {
             case 0:
+                GameManager.CAMERA.setPosition(Window.width/2 - (int)(currentMap*offset),0,true);
                 background.bind();
                 TextureRenderer.imageC(0,0,1280,720);
                 //title.render();
-                admin.render();
-                number.render();
+                admin.renderC();
                 goGame.display();
                 next.display();
                 previous.display();
                 options.display();
                 quit.display();
+
+                for(int i = 0; i < Config.getNumberOfMap(); i++){
+                    textures[i].bind();
+                    TextureRenderer.image((i+1) * offset - Window.width*0.025f,
+                            Window.height*0.225f , Window.width*0.05f, Window.width*0.05f);
+                    levels[i].render();
+                }
                 break;
             case 1:
                 option.display();
@@ -224,12 +251,25 @@ public class MenuScreen extends Screen {
         }
     }
 
-    public void partyNumber(int add){
+    public void currentMap(int add){
         int tempNumber = currentMap + add;
-        if(tempNumber >= 1 && tempNumber <= Config.getNumberOfMap() && Config.getMapConcluded(tempNumber-1) != 0){
+        if(tempNumber >= 1 && tempNumber <= Config.getNumberOfMap() && Config.getMapConcluded(tempNumber) != 0){
             currentMap = tempNumber;
-            number.setText("Map : " + currentMap);
             Config.setCurrentMap(currentMap);
+        } else if(tempNumber >=1){
+            currentMap = 1;
+            Config.setCurrentMap(currentMap);
+        } else{
+            currentMap = Config.getLastMap();
+        }
+        placeFont();
+    }
+
+    public void placeFont(){
+        for(int i = 0; i < Config.getNumberOfMap(); i++){
+            Vec2 place = new Vec2((i+1) * offset,Window.height*0.20f);
+            levels[i] = new FontRenderer(String.valueOf(i+1), StaticFonts.monofonto, Window.width*0.02f,
+                    place,Color4.BLACK.copy());
         }
     }
 
@@ -244,9 +284,11 @@ public class MenuScreen extends Screen {
         options.unload();
         quit.unload();
         //title.unload();
-        number.unload();
         // Unload the overlay
         option.unload();
         background.unload();
+        win.unload();
+        play.unload();
+        lock.unload();
     }
 }

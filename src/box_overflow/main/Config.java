@@ -13,52 +13,20 @@ import java.io.File;
  */
 public class Config {
 
-    /**
-     * Project path
-     */
+
     private static String projectPath;
-
-    /**
-     * Current window size in width.
-     */
     private static int currentWindowWidth;
-
-    /**
-     * Current window size in height.
-     */
     private static int currentWindowHeight;
-
-    /**
-     * Basic table of inputs.
-     */
     private static int[][] inputs;
-
-    /**
-     * Current language use.
-     */
     private static String language;
-
     private static int currentMap;
-
     private static int numberOfMap;
-
     private static int mapConcluded[];
-
+    private static int lastMap;
     private static boolean spew;
-
-    /**
-     * Current noiseVolume.
-     */
     private static int noiseVolume;
-
-    /**
-     * Current musicVolume.
-     */
     private static int musicVolume;
 
-    /**
-     * Public static final string about the path for different thing.
-     */
     public static final String CONFIG_PATH = "data/config/config.xml";
     public static final String ENTITY_PATH = "box_overflow.entity.type.";
     public static final String MAP_PATH = "/map/map";
@@ -198,13 +166,13 @@ public class Config {
 
     public static int getNumberOfMap() { return numberOfMap; }
 
-    public static int getMapConcluded(int mapIndex){return mapConcluded[mapIndex];}
+    public static int getMapConcluded(int mapIndex){ if(mapIndex > mapConcluded.length) return -1; return mapConcluded[mapIndex-1]; }
 
     public static int[] getMapsConcluded(){return mapConcluded;}
 
     public static void setMapConcluded(int mapConcluded[]){Config.mapConcluded = mapConcluded;}
 
-    public static void setMapConcluded(int index, int value){ if(index < numberOfMap) Config.mapConcluded[index-1] = value;}
+    public static void setMapConcluded(int index, int value){ if(index <= numberOfMap) Config.mapConcluded[index-1] = value;}
 
     public static void setSpew(boolean newState){
         spew = newState;
@@ -212,5 +180,13 @@ public class Config {
 
     public static boolean getSpew(){
         return spew;
+    }
+
+    public static void setLastMap(int last){
+        lastMap = last;
+    }
+
+    public static int getLastMap(){
+        return lastMap;
     }
 }

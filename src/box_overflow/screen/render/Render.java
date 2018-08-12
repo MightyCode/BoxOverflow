@@ -3,6 +3,7 @@ package box_overflow.screen.render;
 import box_overflow.util.math.Color4;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 /**
  * Class with utility.

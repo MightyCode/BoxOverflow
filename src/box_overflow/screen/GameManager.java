@@ -77,6 +77,7 @@ public class GameManager {
 
         // Load the fist screen
         currentScreen = (new MenuScreen(this));
+        CAMERA.setTween(0.25f,0.25f);
     }
 
     /**
