@@ -42,10 +42,8 @@ public class Config {
         File test = new File("data/");
         if (!test.exists() && !test.isDirectory()){
             System.out.println("Create file Data");
-            File config = new File("data\\config");
-            File data = new File("data\\saves");
+            File config = new File("data/config");
             config.mkdirs();
-            data.mkdirs();
 
             if(!FileMethods.copyFromJar("/config/configOriginal.xml","data/config/config.xml")){
                 System.out.println("Error on creation of Data");
@@ -56,7 +54,7 @@ public class Config {
         test = new File("data/config");
         if (!test.exists() && !test.isDirectory()){
             System.out.println("Create file Config");
-            File config = new File("data\\config");
+            File config = new File("data/config");
             config.mkdirs();
             if(!FileMethods.copyFromJar("/config/configOriginal.xml","data/config/config.xml")){
                 System.out.println("Error on creation of config");

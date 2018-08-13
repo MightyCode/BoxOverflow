@@ -1,5 +1,6 @@
 package box_overflow.entity.gui;
 
+import box_overflow.screen.overlay.Overlay;
 import box_overflow.screen.render.Animation;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;

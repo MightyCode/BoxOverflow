@@ -23,7 +23,7 @@ public class EntityManager {
      */
     private ArrayList<Eobject> objects;
 
-    private Player player;
+    private Emoveable player;
 
     private ArrayList<Eobject> toRemove;
 
@@ -138,7 +138,7 @@ public class EntityManager {
     }
 
     public Player getPlayer(){
-        return player;
+        return (Player)player;
     }
 
     /**

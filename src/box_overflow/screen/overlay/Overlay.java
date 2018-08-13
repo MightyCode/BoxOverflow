@@ -1,6 +1,7 @@
 package box_overflow.screen.overlay;
 
 import box_overflow.main.Window;
+import box_overflow.screen.GameManager;
 import box_overflow.screen.screens.Screen;
 
 /**
@@ -15,7 +16,7 @@ public abstract class Overlay {
     /**
      * The state of the overlay.
      */
-    protected static int overlayState;
+    public int overlayState;
     /**
      * Screen.
      * This variable contains the screen which have instance this overlay.
@@ -52,14 +53,14 @@ public abstract class Overlay {
      * Set the state of the screen which have instance the overlay.
      */
     public static void setScreenState(int newsState){
-        Screen.setState(newsState);
+        Window.gameManager.setState(newsState);
     }
 
     /**
      * Change the state of the overlay.
      * @param newState The new state.
      */
-    public static  void setState(int newState){overlayState = newState;}
+    public void setState(int newState){overlayState = newState;}
 
     /**
      * Free memory.

@@ -57,11 +57,11 @@ public class PauseOverlay extends Overlay{
                 backgroundColor,
                 hoverColor,
                 textColor,
-                hoverTextColor
+                hoverTextColor,this
         ){
             @Override
             public void action () {
-                Screen.setState(GameScreen.STATE_NORMAL);
+                Window.gameManager.setState(GameScreen.STATE_NORMAL);
             }
         };
 
@@ -73,11 +73,11 @@ public class PauseOverlay extends Overlay{
                 backgroundColor,
                 hoverColor,
                 textColor,
-                hoverTextColor
+                hoverTextColor,this
         ){
             @Override
             public void action () {
-                Screen.setState(GameScreen.STATE_OPTION);
+                Window.gameManager.setState(GameScreen.STATE_OPTION);
             }
         };
 
@@ -89,11 +89,10 @@ public class PauseOverlay extends Overlay{
                 backgroundColor,
                 hoverColor,
                 textColor,
-                hoverTextColor
+                hoverTextColor,this
         ){
             @Override
             public void action () {
-                Screen.setState(GameScreen.STATE_NORMAL);
                 Window.gameManager.setScreen(GameManager.MENUSCREEN);
             }
         };
@@ -104,7 +103,7 @@ public class PauseOverlay extends Overlay{
      */
     public void update(){
         if(GameManager.inputsManager.inputPressed(0)) {
-            Screen.setState(GameScreen.STATE_NORMAL);
+            Window.gameManager.setScreen(GameScreen.STATE_NORMAL);
         }
 
         continuer.update();

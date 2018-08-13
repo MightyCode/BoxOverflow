@@ -61,7 +61,7 @@ public abstract class Echaracter extends Emoveable {
     public void takeDamage(int damage) {
         healthPoint -= damage;
         if (healthPoint <= 0) {
-            died();
+            //died();
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class Echaracter extends Emoveable {
         if (maxHealthPoint >= newValue && newValue >= 0) {
             healthPoint = newValue;
             if (healthPoint <= 0) {
-                died();
+                //died();
             }
         }
     }

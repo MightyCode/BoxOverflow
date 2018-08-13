@@ -2,6 +2,7 @@ package box_overflow.entity.gui;
 
 import box_overflow.entity.Eobject.Edrawable;
 import box_overflow.inputs.MouseManager;
+import box_overflow.screen.overlay.Overlay;
 import box_overflow.util.math.Vec2;
 
 /**
@@ -18,6 +19,8 @@ public abstract class GUIComponent extends Edrawable {
      * The state of the GUIComponent.
      */
     protected int GUIState;
+
+    protected Overlay overlay;
 
     /**
      * The state of locking for the GUIComponent.
@@ -44,10 +47,21 @@ public abstract class GUIComponent extends Edrawable {
         this.size = size;
     }
 
+    public GUIComponent(Vec2 pos, Vec2 size, Overlay overlay){
+        this.pos = pos;
+        this.size = size;
+        this.overlay = overlay;
+    }
+
     /**
      * The class constructor with just size
      * @param size The size of GUIComponent.
      */
+    public GUIComponent(Vec2 size, Overlay ov){
+        this.size = size;
+        this.overlay = ov;
+    }
+
     public GUIComponent(Vec2 size){
         this.size = size;
     }

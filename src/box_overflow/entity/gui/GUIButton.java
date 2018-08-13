@@ -1,5 +1,6 @@
 package box_overflow.entity.gui;
 
+import box_overflow.screen.overlay.Overlay;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
 import box_overflow.screen.render.shape.ShapeRenderer;
@@ -72,9 +73,20 @@ public class GUIButton extends GUIComponent {
      * @param textColor The normal text color.
      * @param hoverTextColor The color of the text when the button is hovering.
      */
-    public GUIButton(Vec2 pos, Vec2 size, int screen, int number, FontFace font, Color4 backgroundColor, Color4 hoverColor, Color4 textColor, Color4 hoverTextColor) {
-        super(size);
+    public GUIButton(Vec2 pos, Vec2 size, int screen, int number, FontFace font, Color4 backgroundColor, Color4 hoverColor, Color4 textColor, Color4 hoverTextColor, Overlay ov) {
+        super(size,ov);
 
+        this.backgroundColor = backgroundColor;
+        this.hoverColor = hoverColor;
+        this.textColor = textColor;
+        this.hoverTextColor = hoverTextColor;
+
+        fontRenderer = new FontRenderer(screen, number, font, size.getY() - 6, pos, textColor);
+        setPos(pos);
+    }
+
+    public GUIButton(Vec2 pos, Vec2 size, int screen, int number, FontFace font, Color4 backgroundColor, Color4 hoverColor, Color4 textColor, Color4 hoverTextColor){
+        super(size);
         this.backgroundColor = backgroundColor;
         this.hoverColor = hoverColor;
         this.textColor = textColor;

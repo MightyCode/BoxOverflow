@@ -1,6 +1,7 @@
 package box_overflow.screen.render;
 
 import box_overflow.entity.Eobject.Emoveable;
+import box_overflow.entity.type.Player;
 import box_overflow.main.Window;
 import box_overflow.screen.screens.GameScreen;
 import box_overflow.util.math.Color4;
@@ -92,7 +93,7 @@ public class Camera {
         breake = false;
     }
 
-    public void setPosition(int posX, int posY, boolean isTween){
+    public void setPosition(float posX, float posY, boolean isTween){
         breake = true;
         float newTweenX = (isTween)? tweenX : 1;
         float newTweenY = (isTween)? tweenY : 1;
@@ -202,4 +203,5 @@ public class Camera {
     public int getPosY() {
         return posY;
     }
+
 }

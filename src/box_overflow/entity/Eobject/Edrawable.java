@@ -38,15 +38,13 @@ public abstract class Edrawable extends Eobject{
     }
 
     public void update(){
-        animationPlayed = IDLE;
-        priority = IDLE_P;
+        animations.get(animationPlayed).update();
     }
 
     public abstract void display();
 
     public void unload() {
         for(Animation animation: animations) if(!(animation == null)) animation.unload();
-
         super.unload();
     }
 

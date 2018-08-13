@@ -3,7 +3,6 @@ package box_overflow.screen.overlay;
 import box_overflow.entity.gui.GUIButton;
 import box_overflow.main.Config;
 import box_overflow.main.Window;
-import box_overflow.screen.GameManager;
 import box_overflow.screen.render.shape.ShapeRenderer;
 import box_overflow.screen.render.text.FontRenderer;
 import box_overflow.screen.render.text.StaticFonts;
@@ -17,7 +16,7 @@ public class WinOverlay extends Overlay{
 
     private FontRenderer win;
 
-    private GUIButton next, retry, menu;
+    private GUIButton next, retry/*,menu*/;
 
     public WinOverlay(Screen screen){
         super(screen);
@@ -38,14 +37,14 @@ public class WinOverlay extends Overlay{
                 backgroundColor,
                 hoverColor,
                 textColor,
-                hoverTextColor
+                hoverTextColor,this
         ){
             @Override
             public void action () {
                 if(Config.getNumberOfMap() > Config.getCurrentMap()) {
                     Config.setCurrentMap(Config.getCurrentMap() + 1);
                     GameScreen.lvm.load();
-                    GameScreen.setState(GameScreen.STATE_NORMAL);
+                    Window.gameManager.setState(GameScreen.STATE_NORMAL);
                 } else {
                     fontRenderer.setWordNumber(TextManager.WIN,4);
                 }
@@ -60,16 +59,16 @@ public class WinOverlay extends Overlay{
                 backgroundColor,
                 hoverColor,
                 textColor,
-                hoverTextColor
+                hoverTextColor,this
         ){
             @Override
             public void action () {
-                GameScreen.setState(GameScreen.STATE_NORMAL);
+                Window.gameManager.setState(GameScreen.STATE_NORMAL);
                 GameScreen.lvm.load();
             }
         };
 
-        menu = new GUIButton(
+        /*menu = new GUIButton(
                 new Vec2(Window.width / 2, Window.height/1.71f),
                 size,
                 TextManager.WIN,3,
@@ -77,20 +76,19 @@ public class WinOverlay extends Overlay{
                 backgroundColor,
                 hoverColor,
                 textColor,
-                hoverTextColor
+                hoverTextColor,this
         ){
             @Override
             public void action () {
-                Screen.setState(GameScreen.STATE_NORMAL);
                 Window.gameManager.setScreen(GameManager.MENUSCREEN);
             }
-        };
+        };*/
     }
 
     public void update() {
         next.update();
         retry.update();
-        menu.update();
+        /*menu.update();*/
     }
 
 
@@ -102,13 +100,13 @@ public class WinOverlay extends Overlay{
         win.renderC();
         next.display();
         retry.display();
-        menu.display();
+        /*menu.display();*/
     }
 
 
     public void unload() {
         next.unload();
         retry.unload();
-        menu.unload();
+        /*menu.unload();*/
     }
 }

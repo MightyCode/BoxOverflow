@@ -68,9 +68,6 @@ public class MenuScreen extends Screen {
             }
         }
 
-        /*title = new FontRenderer(TextManager.MENU,0, StaticFonts.monofonto, Window.width*0.06f,
-                new Vec2(Window.width * 0.5f, Window.height * 0.13f), Color4.BLACK);*/
-
         if(Box_Overflow.admin) admin = new FontRenderer("Mode admin", StaticFonts.monofonto, Window.width*0.02f,
                 new Vec2(Window.width * 0.5f, Window.height * 0.90f), new Color4(0.2f,0.2f,0.2f,0.9f));
 
@@ -143,7 +140,7 @@ public class MenuScreen extends Screen {
         ) {
             @Override
             public void action() {
-                MenuScreen.setState(1);
+                Window.gameManager.setState(1);
                 Config.close();
             }
         };
@@ -168,7 +165,7 @@ public class MenuScreen extends Screen {
         option = new OptionOverlay(this) {
             @Override
             public void quit() {
-                Screen.setState(0);
+                Window.gameManager.setState(0);
             }
         };
 
@@ -180,7 +177,6 @@ public class MenuScreen extends Screen {
         textures = new Texture[Config.getNumberOfMap()];
         for(int i = 0; i < Config.getNumberOfMap(); i++){
             textures[i] = new Texture();
-            System.out.println();
             switch(Config.getMapConcluded(i+1)){
                 case 0:
                     textures[i] = lock;
@@ -255,13 +251,14 @@ public class MenuScreen extends Screen {
         int tempNumber = currentMap + add;
         if(tempNumber >= 1 && tempNumber <= Config.getNumberOfMap() && Config.getMapConcluded(tempNumber) != 0){
             currentMap = tempNumber;
-            Config.setCurrentMap(currentMap);
-        } else if(tempNumber >=1){
+        } else if(tempNumber >= 1){
             currentMap = 1;
-            Config.setCurrentMap(currentMap);
+
         } else{
             currentMap = Config.getLastMap();
+
         }
+        Config.setCurrentMap(currentMap);
         placeFont();
     }
 

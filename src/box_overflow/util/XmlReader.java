@@ -136,7 +136,7 @@ public abstract class XmlReader {
 			int last = 1;
 			for(int i = 0 ; i < mapConcluded.length; i++){
 				mapConcluded[i] = Integer.parseInt(tag.getAttribute("map"+String.valueOf(i+1)));
-				if(mapConcluded[i] == 1) last = i+1;
+				if(mapConcluded[i] == 1 || mapConcluded[i] == 2) last = i+1;
 			}
 			Config.setLastMap(last);
 			Config.setMapConcluded(mapConcluded);

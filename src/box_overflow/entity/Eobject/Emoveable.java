@@ -32,10 +32,6 @@ public abstract class Emoveable extends Edrawable{
         }
     }
 
-    public void died(){
-        unload();
-    }
-
     public Vec2 getSpeed() { return speed; }
 
     public void setSpeed(Vec2 speed) { this.speed = speed; }

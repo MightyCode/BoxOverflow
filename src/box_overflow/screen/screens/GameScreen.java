@@ -5,6 +5,7 @@ import box_overflow.game.Hud;
 import box_overflow.entity.EntityManager;
 import box_overflow.game.LevelManager;
 import box_overflow.main.Config;
+import box_overflow.main.Window;
 import box_overflow.screen.overlay.*;
 import box_overflow.screen.render.Render;
 import box_overflow.screen.GameManager;
@@ -84,14 +85,14 @@ public class GameScreen extends Screen {
         option = new OptionOverlay(this){
             @Override
             public void quit(){
-                Screen.setState(STATE_PAUSE);
+                Window.gameManager.setState(STATE_PAUSE);
                 Config.close();
             }
         };
 
         win = new WinOverlay(this);
 
-        Player player = new Player(this,new Vec2(1));
+        Player player = new Player(this,new Vec2(1.0f,1.5f));
 
         entityManager.setPlayer(player);
         GameManager.CAMERA.setEntityToCamera(player);
@@ -180,9 +181,9 @@ public class GameScreen extends Screen {
         pause.unload();
         option.unload();
         win.unload();
-        entityManager.removeAll();
-        entityManager.setPlayer(null);
         lvm.unload();
+        entityManager.removeAll();
+        entityManager.getPlayer().unload();
     }
 
     /**

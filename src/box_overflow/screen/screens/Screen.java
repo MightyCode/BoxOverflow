@@ -21,7 +21,7 @@ public abstract class Screen {
      * Screen state.
      * This variable contains the different states of game.
      */
-    protected static int screenState = 0;
+    protected int screenState = 0;
 
     /**
      * Screen class constructor.
@@ -52,7 +52,7 @@ public abstract class Screen {
     /**
      * Base architecture of setting state method
      */
-    public static void setState(int newState){
+    public void setState(int newState){
         screenState = newState;
     }
 
@@ -62,9 +62,10 @@ public abstract class Screen {
      */
     public void focus(boolean b){}
 
+    public int getState(){ return screenState; }
+
     /**
      * Base architecture of unloading method
      */
-    public void unload() {
-    }
+    public void unload() {}
 }

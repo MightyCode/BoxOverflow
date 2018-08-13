@@ -56,13 +56,13 @@ public class OptionOverlay extends Overlay {
 
         general = new GUIButton(
                 new Vec2(Window.width * 0.2f, Window.height * 0.3f), size,
-                TextManager.OPTIONS,0, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor
+                TextManager.OPTIONS,0, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor,this
         ) {
             @Override public void action() {
                 lock = true;
                 video.setLock(false);
                 inputs.setLock(false);
-                Overlay.setState(0);
+                overlay.setState(0);
             }
         };
 
@@ -71,25 +71,25 @@ public class OptionOverlay extends Overlay {
 
         video = new GUIButton(
                 new Vec2(Window.width * 0.5f, Window.height * 0.3f),
-                size, TextManager.OPTIONS,1, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor
+                size, TextManager.OPTIONS,1, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor,this
         ) {
             @Override public void action() {
                 lock = true;
                 general.setLock(false);
                 inputs.setLock(false);
-                Overlay.setState(1);
+                overlayState = 1;
             }
         };
 
         inputs = new GUIButton(
                 new Vec2(Window.width * 0.8f, Window.height * 0.3f),
-                size, TextManager.OPTIONS,2, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor
+                size, TextManager.OPTIONS,2, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor,this
         ) {
             @Override public void action() {
                 lock = true;
                 video.setLock(false);
                 video.setLock(false);
-                Overlay.setState(2);
+                overlay.setState(2);
             }
         };
 
