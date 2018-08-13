@@ -39,7 +39,7 @@
                 s2=""
                 s3="Mode suivi"
                 s4="En anglais"
-                s5="Quittez"
+                s5="Quitter"
                 s6="Music : "
                 s7="Bruit : "
                 s8="Options"
@@ -64,7 +64,7 @@
                 s1="Deplacement"
                 s2="Recommencer la map"
                 s3="Pour réussir le niveau vous devez le remplir entièrement et sortir"
-                s4="Quittez"
+                s4="Quitter"
         />
     </screen>
 </word>

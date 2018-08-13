@@ -4,6 +4,8 @@ import box_overflow.main.Config;
 import box_overflow.main.Window;
 import box_overflow.entity.gui.GUIButton;
 import box_overflow.screen.render.text.FontRenderer;
+import box_overflow.screen.render.texture.Texture;
+import box_overflow.screen.render.texture.TextureRenderer;
 import box_overflow.util.TextManager;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
@@ -36,8 +38,8 @@ public class OptionOverlay extends Overlay {
      * Inputs for general
      */
     private GUICheckBox language, spew;
-    /*private GUISlider musicVolume;
-    private GUISlider noiseVolume;*/
+
+    private Texture background;
 
     /**
      * Option overlay class constructor.
@@ -81,27 +83,6 @@ public class OptionOverlay extends Overlay {
         };
         language.setState(Config.getLanguage().equals("en"));
 
-        /*musicVolume = new GUISlider(
-                new Vec2(Window.width*0.20f, Window.height*0.41f) ,
-                new Vec2(Window.width*0.125f, Window.height*0.1f),
-                TextManager.OPTIONS,6, StaticFonts.monofonto, textColor, hoverTextColor,0,100, Config.getMusicVolume()
-        ){
-            @Override
-            public void action () {
-                SoundManager.setMusicVolume((int)value);
-            }
-        };
-
-        noiseVolume = new GUISlider(
-                new Vec2(Window.width*0.20f, Window.height*0.55f) ,
-                new Vec2(Window.width*0.125f, Window.height*0.1f),
-                TextManager.OPTIONS,7, StaticFonts.monofonto, textColor, hoverTextColor,0,100, Config.getNoiseVolume()
-        ){
-            @Override
-            public void action () {
-                SoundManager.setNoiseVolume((int)value);
-            }
-        };*/
         option = new FontRenderer(TextManager.OPTIONS,8, StaticFonts.IBM, Window.height*0.1f,
                 new Vec2(Window.width * 0.5f, Window.height * 0.05f), Color4.BLACK);
 
@@ -132,19 +113,16 @@ public class OptionOverlay extends Overlay {
                 quit();
             }
         };
-
+        background = new Texture("/textures/menu/background.png");
     }
 
     /**
      * Update the overlay and its components.
      */
     public void update() {
-        if(GameManager.inputsManager.inputPressed(0))  quit();
-
+        if(GameManager.inputsManager.inputPressed(0)) quit();
         general.update();
         language.update();
-        /*musicVolume.update();
-        noiseVolume.update();*/
         spew.update();
         quit.update();
     }
@@ -154,12 +132,11 @@ public class OptionOverlay extends Overlay {
      */
     public void display() {
         Render.clear(new Color4(0.8f));
-
+        background.bind();
+        TextureRenderer.imageC(0,0,Window.width,Window.height);
         option.renderC();
         general.display();
         language.display();
-        /*musicVolume.display();
-        noiseVolume.display();*/
         spew.display();
         quit.display();
     }
@@ -187,5 +164,6 @@ public class OptionOverlay extends Overlay {
         noiseVolume.unload();*/
         spew.unload();
         quit.unload();
+        background.unload();
     }
 }
