@@ -59,7 +59,12 @@ public class KeyboardManager {
      * @return boolean
      */
     public boolean keyPressed(int keyID){
-        return (state[keyID] && !tempState[keyID]);
+        if((state[keyID] && !tempState[keyID])){
+            tempState[keyID] = true;
+            return true;
+        }
+
+        return false;
     }
 
     /**

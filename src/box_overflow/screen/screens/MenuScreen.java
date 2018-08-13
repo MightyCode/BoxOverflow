@@ -1,8 +1,8 @@
 package box_overflow.screen.screens;
 
 import box_overflow.inputs.KeyboardManager;
-import box_overflow.main.Box_Overflow;
 import box_overflow.main.Config;
+import box_overflow.screen.overlay.HelpOverlay;
 import box_overflow.screen.render.texture.Texture;
 import box_overflow.screen.render.texture.TextureRenderer;
 import box_overflow.util.TextManager;
@@ -27,18 +27,20 @@ import static org.lwjgl.glfw.GLFW.*;
  */
 public class MenuScreen extends Screen {
 
-    private FontRenderer admin;
+    FontRenderer title, credit;
+
     private FontRenderer[] levels;
     private int currentMap;
 
-    private GUIButton goGame, previous, next, options, quit;
+    private GUIButton goGame, previous, next, options, help,quit;
 
     private Texture background;
     private OptionOverlay option;
+    private HelpOverlay oHelp;
 
-    private Texture win,play,lock;
+    private Texture win, play, lock;
     private Texture[] textures;
-    private float offset = Window.width*0.2f;
+    private float offset = Window.width*0.10f;
 
     /**
      * Menu screen class constructor.
@@ -68,20 +70,14 @@ public class MenuScreen extends Screen {
             }
         }
 
-        if(Box_Overflow.admin) admin = new FontRenderer("Mode admin", StaticFonts.monofonto, Window.width*0.02f,
-                new Vec2(Window.width * 0.5f, Window.height * 0.90f), new Color4(0.2f,0.2f,0.2f,0.9f));
-
-        else admin = new FontRenderer("", StaticFonts.monofonto, 0,
-                new Vec2(0, 0), new Color4(0,0,0,0));
-
-        Vec2 size = new Vec2(Window.width / 4f, Window.height / 20f);
+        Vec2 size = new Vec2(Window.width * 0.13f, Window.height * 0.05f);
         Color4 backgroundColor = new Color4(0.0f, 0.0f, 0.0f, 0.0f);
         Color4 hoverColor = new Color4(0.0f, 0.0f, 0.0f, 0.2f);
         Color4 textColor = new Color4(0.2f, 0.2f, 0.2f, 1.0f);
         Color4 hoverTextColor = Color4.BLACK;
 
         goGame = new GUIButton(
-                new Vec2(Window.width * 0.5f, Window.height * 0.40f),
+                new Vec2(Window.width * 0.5f, Window.height * 0.60f),
                 size,
                 TextManager.MENU,1,
                 StaticFonts.monofonto,
@@ -97,9 +93,9 @@ public class MenuScreen extends Screen {
         };
 
         previous = new GUIButton(
-                new Vec2(Window.width * 0.25f, Window.height * 0.43f),
-                size,
-                TextManager.MENU,2,
+                new Vec2(Window.width * 0.40f, Window.height * 0.60f),
+                new Vec2(Window.width * 0.07f, Window.height * 0.05f),
+               "<-",
                 StaticFonts.monofonto,
                 backgroundColor,
                 hoverColor,
@@ -113,9 +109,9 @@ public class MenuScreen extends Screen {
         };
 
         next = new GUIButton(
-                new Vec2(Window.width * 0.75f, Window.height * 0.43f),
-                size,
-                TextManager.MENU,3,
+                new Vec2(Window.width * 0.60f, Window.height * 0.60f),
+                new Vec2(Window.width * 0.07f, Window.height * 0.05f),
+                "->",
                 StaticFonts.monofonto,
                 backgroundColor,
                 hoverColor,
@@ -129,7 +125,7 @@ public class MenuScreen extends Screen {
         };
 
         options = new GUIButton(
-                new Vec2(Window.width * 0.5f, Window.height * 0.55f),
+                new Vec2(Window.width * 0.5f, Window.height * 0.67f),
                 size,
                 TextManager.MENU,4,
                 StaticFonts.monofonto,
@@ -145,8 +141,24 @@ public class MenuScreen extends Screen {
             }
         };
 
+        help = new GUIButton(
+                new Vec2(Window.width * 0.5f, Window.height * 0.74f),
+                size,
+                TextManager.MENU,6,
+                StaticFonts.monofonto,
+                backgroundColor,
+                hoverColor,
+                textColor,
+                hoverTextColor
+        ) {
+            @Override
+            public void action() {
+                Window.gameManager.setState(2);
+            }
+        };
+
         quit = new GUIButton(
-                new Vec2(Window.width * 0.5f, Window.height * 0.70f),
+                new Vec2(Window.width * 0.5f, Window.height * 0.81f),
                 size,
                 TextManager.MENU,5,
                 StaticFonts.monofonto,
@@ -191,6 +203,11 @@ public class MenuScreen extends Screen {
         }
         placeFont();
         GameManager.CAMERA.setPosition(0,0,false);
+        title = new FontRenderer("Box overflow", StaticFonts.monofonto, Window.width*0.06f,
+                new Vec2(Window.width*0.5f, Window.height*0.20f), Color4.BLACK.copy());
+        credit = new FontRenderer("Game created by MightyCode and TheQFM", StaticFonts.IBM_Stretch, Window.width*0.02f,
+                new Vec2(Window.width*0.5f, Window.height*0.90f), Color4.BLACK.copy());
+        oHelp = new HelpOverlay(this);
     }
 
     /**
@@ -201,16 +218,19 @@ public class MenuScreen extends Screen {
             case 0:
                 if(GameManager.keyboardManager.keyPressed(GLFW_KEY_LEFT))currentMap(-1);
                 else if(GameManager.keyboardManager.keyPressed(GLFW_KEY_RIGHT))currentMap(1);
-                if(KeyboardManager.key(GLFW_KEY_ENTER)) Window.gameManager.setScreen(GameManager.GAMESCREEN);
-
+                if(GameManager.inputsManager.inputPressed(6)) Window.gameManager.setScreen(GameManager.GAMESCREEN);
                 goGame.update();
                 next.update();
                 previous.update();
                 options.update();
+                help.update();
                 quit.update();
                 break;
             case 1:
                 option.update();
+                break;
+            case 2:
+                oHelp.update();
                 break;
         }
 
@@ -225,29 +245,33 @@ public class MenuScreen extends Screen {
             case 0:
                 GameManager.CAMERA.setPosition(Window.width/2 - (int)(currentMap*offset),0,true);
                 background.bind();
-                TextureRenderer.imageC(0,0,1280,720);
-                //title.render();
-                admin.renderC();
+                TextureRenderer.imageC(0,0,Window.width,Window.height);
+                title.renderC();
+                credit.renderC();
                 goGame.display();
                 next.display();
                 previous.display();
                 options.display();
+                help.display();
                 quit.display();
 
                 for(int i = 0; i < Config.getNumberOfMap(); i++){
                     textures[i].bind();
-                    TextureRenderer.image((i+1) * offset - Window.width*0.025f,
-                            Window.height*0.225f , Window.width*0.05f, Window.width*0.05f);
+                    TextureRenderer.image(((i+1) * offset) - Window.width*0.022f,
+                            Window.height*0.425f , Window.width*0.05f, Window.width*0.05f);
                     levels[i].render();
                 }
                 break;
             case 1:
                 option.display();
                 break;
+            case 2:
+                oHelp.display();
+                break;
         }
     }
 
-    public void currentMap(int add){
+    private void currentMap(int add){
         int tempNumber = currentMap + add;
         if(tempNumber >= 1 && tempNumber <= Config.getNumberOfMap() && Config.getMapConcluded(tempNumber) != 0){
             currentMap = tempNumber;
@@ -262,11 +286,19 @@ public class MenuScreen extends Screen {
         placeFont();
     }
 
-    public void placeFont(){
+    private void placeFont(){
+        float size = 0.03f;
         for(int i = 0; i < Config.getNumberOfMap(); i++){
-            Vec2 place = new Vec2((i+1) * offset,Window.height*0.20f);
-            levels[i] = new FontRenderer(String.valueOf(i+1), StaticFonts.monofonto, Window.width*0.02f,
-                    place,Color4.BLACK.copy());
+            Vec2 place = new Vec2((i+1) * offset  ,Window.height*0.40f);
+            if(i+1 != currentMap){
+                levels[i] = new FontRenderer(String.valueOf(i+1), StaticFonts.monofonto, Window.width*0.02f,
+                        place, Color4.BLACK.copy());
+            } else {
+                place.setY(Window.height*0.37f);
+                levels[i] = new FontRenderer(String.valueOf(i+1), StaticFonts.monofonto, Window.width*size,
+                        place, Color4.BLACK.copy());
+                place.setY(Window.height*0.40f);
+            }
         }
     }
 
@@ -280,9 +312,11 @@ public class MenuScreen extends Screen {
         previous.unload();
         options.unload();
         quit.unload();
-        //title.unload();
+        title.unload();
+        credit.unload();
         // Unload the overlay
         option.unload();
+        oHelp.unload();
         background.unload();
         win.unload();
         play.unload();

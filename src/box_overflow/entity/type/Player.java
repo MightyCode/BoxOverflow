@@ -3,12 +3,14 @@ package box_overflow.entity.type;
 import box_overflow.entity.Eobject.Echaracter;
 import box_overflow.game.LevelManager;
 import box_overflow.game.Tile;
-import box_overflow.main.Window;
+import box_overflow.inputs.KeyboardManager;
 import box_overflow.screen.GameManager;
 import box_overflow.screen.render.Animation;
 import box_overflow.screen.render.texture.TextureRenderer;
 import box_overflow.screen.screens.GameScreen;
 import box_overflow.util.math.Vec2;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 
 /**
  * Player class.
@@ -42,6 +44,12 @@ public class Player extends Echaracter {
 		animations.add(new Animation("/textures/player/idle1/",2,60));
 		animations.add(new Animation("/textures/player/idle2/",2,60));
 		animations.add(new Animation("/textures/player/idle3/",2,60));
+		animations.add(new Animation("/textures/player/walk0/",8,LevelManager.TRANSITIONTIME/8));
+		animations.add(new Animation("/textures/player/walk1/",8,LevelManager.TRANSITIONTIME/8));
+		animations.add(new Animation("/textures/player/walk2/",8,LevelManager.TRANSITIONTIME/8));
+		animations.add(new Animation("/textures/player/walk3/",8,LevelManager.TRANSITIONTIME/8));
+		animations.add(new Animation("/textures/player/win/",2,30));
+		animations.add(new Animation("/textures/player/death/",1,1));
 	}
 
 	/**
@@ -49,29 +57,45 @@ public class Player extends Echaracter {
 	 */
 	public void update() {
 		super.update();
-		if(GameScreen.lvm.getTransition()) {
+
+		if (GameManager.inputsManager.inputPressed(5) && gameScreen.getState() == GameScreen.STATE_NORMAL) {
+			GameScreen.lvm.load();
+		}
+
+		if (GameManager.inputsManager.inputPressed(6)){
+			GameScreen.lvm.setPlay();
+			return;
+		}
+
+		if(GameScreen.lvm.getDeath() || GameScreen.lvm.getBegin()){
+			if(GameScreen.lvm.getDeath()) animationPlayed = 9;
+			delta.setPosition(LevelManager.TRANSITIONTIME*initDelta.getX(),
+					LevelManager.TRANSITIONTIME*initDelta.getY());
+			return;
+		}else if(GameScreen.lvm.getTransition()) {
+
 			delta.setPosition(delta.getX() + ((float)GameScreen.tile/LevelManager.TRANSITIONTIME*initDelta.getX()),
 					delta.getY() + ((float)GameScreen.tile/LevelManager.TRANSITIONTIME*initDelta.getY()));
 			return;
+		}else if(GameScreen.lvm.getWin()){
+			animationPlayed = 8;
+			return;
 		}
+
 		String nextPosition = "idle";
 
 		if (GameManager.inputsManager.input(1)) {
 			nextPosition = "left";
-			animationPlayed = 2;
+			animationPlayed = 0;
 		} else if (GameManager.inputsManager.input(2)) {
 			nextPosition = "up";
-			animationPlayed = 3;
+			animationPlayed = 1;
 		} else if (GameManager.inputsManager.input(3)) {
 			nextPosition = "right";
-			animationPlayed = 0;
+			animationPlayed = 2;
 		} else if (GameManager.inputsManager.input(4)) {
 			nextPosition = "down";
-			animationPlayed = 1;
-		}
-
-		if (GameManager.inputsManager.inputPressed(5) && gameScreen.getState() == GameScreen.STATE_NORMAL) {
-			GameScreen.lvm.reset();
+			animationPlayed = 3;
 		}
 
 		Vec2 temp = pos.copy();
@@ -88,29 +112,42 @@ public class Player extends Echaracter {
 		animations.get(animationPlayed).bind();
 		Vec2 temp = pos.copy().multiply(GameScreen.tile,true);
 		Vec2 sizet = size.copy().multiply(GameScreen.tile,true);
-		if(animationPlayed == 1 || animationPlayed == 3){
-			sizet.setX(sizet.getX()*1.20f);
-		}else{
-			sizet.setX(sizet.getX()*1f);
+		if(animationPlayed == 1 || animationPlayed == 3 || animationPlayed == 5 || animationPlayed == 7 || animationPlayed == 8) {
+			sizet.setX(sizet.getX() * 1.20f);
 		}
 
-		if(animations.size()>0) {
-				TextureRenderer.image(
-						(temp.getX()  - delta.getX() - sizet.getX()*0.10f),
-						(temp.getY() - sizet.getY()*0.33f - delta.getY()),
-						sizet.getX() , sizet.getY());
+		if(animationPlayed >= 4 && animationPlayed <= 7){
+			TextureRenderer.image(
+					(temp.getX()  - delta.getX() - sizet.getX()*0.10f),
+					(temp.getY() - sizet.getY()*0.33f - delta.getY()),
+					sizet.getX() , sizet.getY());
+		} else{
+			TextureRenderer.image(
+					(temp.getX()  - sizet.getX()*0.10f),
+					(temp.getY() - sizet.getY()*0.33f),
+					sizet.getX() , sizet.getY());
 		}
-
-
-		/*ShapeRenderer.rect(pos.getX()*GameScreen.tile,
-				pos.getY()*GameScreen.tile,size.getX()*GameScreen.tile,
-				size.getY()*GameScreen.tile, new Color4(0.2f,0.2f,0.2f,0.5f));*/
 	}
 
-	/**
-	 * When the player die
-	 */
+	public Vec2 getDelta(){
+		return delta;
+	}
+
+	public void stop(){
+		delta = new Vec2(0);
+		if(animationPlayed >= 4) animationPlayed-=4;
+	}
+
+	public void start(){
+		if(animationPlayed < 4) animationPlayed+=4;
+	}
+
+	public void setSide(int side){
+		animationPlayed = side;
+	}
+
 	public void died(){
-		GameScreen.lvm.reset();
+		delta = new Vec2();
+		GameScreen.lvm.load();
 	}
 }

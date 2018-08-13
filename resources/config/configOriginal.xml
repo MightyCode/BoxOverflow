@@ -2,8 +2,8 @@
 <config>
     <general language="en"/>
     <window height="720" width="1280"/>
-    <inputs i0="0-256" i1="0-263" i2="0-265" i3="0-262" i4="0-264" i5="0-82" number="6"/>
+    <inputs i0="0-256" i1="0-263" i2="0-265" i3="0-262" i4="0-264" i5="0-82" i6="0-257" number="7"/>
     <sound music="50" noise="50"/>
     <game number="1" spew="0"/>
-    <save numbmap="6" map1="1" map2="0" map3="0" map4="0" map5="0" map6="0"/>
+    <save numbmap="13" map1="1" map2="0" map3="0" map4="0" map5="0" map6="0" map7="0" map8="0" map9="0" map10="0"  map11="0" map12="0" map13="0"/>
 </config>

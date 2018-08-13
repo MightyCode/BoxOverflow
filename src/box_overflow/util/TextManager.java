@@ -14,9 +14,10 @@ public class TextManager {
 
     public static final int MENU = 0;
     public static final int PAUSE = 1;
-    public static final int DEATH = 2;
+    public static final int GAME = 2;
     public static final int OPTIONS = 3;
     public static final int WIN = 4;
+    public static final int HELP = 5;
 
     /**
      * The sentences of the game.

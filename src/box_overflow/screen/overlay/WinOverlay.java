@@ -3,6 +3,7 @@ package box_overflow.screen.overlay;
 import box_overflow.entity.gui.GUIButton;
 import box_overflow.main.Config;
 import box_overflow.main.Window;
+import box_overflow.screen.GameManager;
 import box_overflow.screen.render.shape.ShapeRenderer;
 import box_overflow.screen.render.text.FontRenderer;
 import box_overflow.screen.render.text.StaticFonts;
@@ -16,7 +17,7 @@ public class WinOverlay extends Overlay{
 
     private FontRenderer win;
 
-    private GUIButton next, retry/*,menu*/;
+    private GUIButton next, retry;
 
     public WinOverlay(Screen screen){
         super(screen);
@@ -42,9 +43,10 @@ public class WinOverlay extends Overlay{
             @Override
             public void action () {
                 if(Config.getNumberOfMap() > Config.getCurrentMap()) {
+                    Window.gameManager.setState(GameScreen.STATE_NORMAL);
                     Config.setCurrentMap(Config.getCurrentMap() + 1);
                     GameScreen.lvm.load();
-                    Window.gameManager.setState(GameScreen.STATE_NORMAL);
+
                 } else {
                     fontRenderer.setWordNumber(TextManager.WIN,4);
                 }
@@ -67,28 +69,18 @@ public class WinOverlay extends Overlay{
                 GameScreen.lvm.load();
             }
         };
-
-        /*menu = new GUIButton(
-                new Vec2(Window.width / 2, Window.height/1.71f),
-                size,
-                TextManager.WIN,3,
-                StaticFonts.monofonto,
-                backgroundColor,
-                hoverColor,
-                textColor,
-                hoverTextColor,this
-        ){
-            @Override
-            public void action () {
-                Window.gameManager.setScreen(GameManager.MENUSCREEN);
-            }
-        };*/
     }
 
     public void update() {
+        if(GameManager.inputsManager.inputPressed(6)){
+            if (Config.getNumberOfMap() > Config.getCurrentMap()) {
+                Config.setCurrentMap(Config.getCurrentMap() + 1);
+                GameScreen.lvm.load();
+                Window.gameManager.setState(GameScreen.STATE_NORMAL);
+            }
+        }
         next.update();
         retry.update();
-        /*menu.update();*/
     }
 
 

@@ -2,14 +2,15 @@
 <word>
     <info language="en"/>
     <!--  0: menu -->
-    <screen id="0" number="6">
+    <screen id="0" number="7">
         <sentence
-                s0="Box overflow"
+                s0="Box Overflow"
                 s1="Play"
                 s2="Previous map"
                 s3="Next map"
                 s4="Options"
                 s5="Quit"
+                s6="Help"
         />
     </screen>
 
@@ -23,10 +24,10 @@
         />
     </screen>
 
-    <!--  2 : Credit overlay -->
-    <screen id="2" number="0">
+    <!--  2 : Game overlay -->
+    <screen id="2" number="1">
         <sentence
-                s0=""
+                s0="Press enter to start"
         />
     </screen>
 
@@ -38,7 +39,7 @@
                 s2="Inputs"
                 s3="Tracking mode"
                 s4="In english"
-                s5=""
+                s5="Quit"
                 s6="Music : "
                 s7="Noise : "
                 s8="Options"
@@ -53,6 +54,17 @@
                 s2="Retry"
                 s3="Go to menu"
                 s4="End of levels"
+        />
+    </screen>
+
+    <!--  5 - ++ : help overlay -->
+    <screen id="5" number="5">
+        <sentence
+                s0="Help"
+                s1="Controls"
+                s2="Reset the map"
+                s3="To end the level you have to fill it and join the exit"
+                s4="Quit"
         />
     </screen>
 </word>

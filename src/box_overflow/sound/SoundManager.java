@@ -1,11 +1,6 @@
 package box_overflow.sound;
 
 import box_overflow.main.Config;
-import sun.audio.AudioPlayer;
-
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
 
 /**
  * Sound Manager.
@@ -21,33 +16,14 @@ public class SoundManager {
      */
     private static int musicVolume;
     private static int noiseVolume;
-
-    private Clip clip;
-
     /**
      * Class constructor.
      */
     public SoundManager(){
         musicVolume = Config.getMusicVolume();
         noiseVolume = Config.getNoiseVolume();
-        try{
-            clip = AudioSystem.getClip();
-            clip.open(StaticSound.box.getAudio());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
-    public void play(Sound s){
-        try{
-            Clip clip = AudioSystem.getClip();
-            clip.open(AudioSystem.getAudioInputStream(this.getClass().getClassLoader().getResource("sfx/box.wav")));
-            clip.start();
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Return the music volume.

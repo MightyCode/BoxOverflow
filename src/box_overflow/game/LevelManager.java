@@ -3,9 +3,14 @@ package box_overflow.game;
 import box_overflow.main.Config;
 import box_overflow.main.Window;
 import box_overflow.screen.GameManager;
+import box_overflow.screen.render.shape.ShapeRenderer;
+import box_overflow.screen.render.text.FontRenderer;
+import box_overflow.screen.render.text.StaticFonts;
 import box_overflow.screen.render.texture.TextureRenderer;
 import box_overflow.screen.screens.GameScreen;
+import box_overflow.util.TextManager;
 import box_overflow.util.XmlReader;
+import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
 
 import java.util.ArrayList;
@@ -13,8 +18,9 @@ import java.util.ArrayList;
 public class LevelManager {
 
     private static final int DEATHTIME = 60;
-    private static final int DISCOVERTIME = 60*2;
-    public static final int TRANSITIONTIME = (int)(60.0f/4f);
+    public static final int TRANSITIONTIME = (int)(24);
+
+    private FontRenderer start;
 
     private int currentLevel;
     private int[][][] currentMap;
@@ -29,15 +35,15 @@ public class LevelManager {
 
     private int turnCounter;
 
-    private boolean discover, death, transition;
+    private boolean discover, death, transition, win;
     private int tWith, tHeight;
-    private int counter, count;
+    private int counter, count, tcounter, dcounter;
     private int time;
 
-    ArrayList<Integer[]> blockToAdd;
+    private ArrayList<Integer[]> blockToAdd;
 
     public LevelManager(){
-        tileset = new Tile[21];
+        tileset = new Tile[22];
         tileset[0] = new Tile();
         tileset[1] = new Tile("/textures/tileset/ground.png",0,true);
         tileset[2] = new Tile("/textures/tileset/box1.png",1, false);
@@ -59,60 +65,61 @@ public class LevelManager {
         tileset[18] = new Tile("/textures/tileset/pic.png",5, true);
         tileset[19] = new Tile("/textures/tileset/hole.png",4, true);
         tileset[20] = new Tile("/textures/tileset/noHole.png",0, true);
-
+        tileset[21] = new Tile("/textures/tileset/croix.png",0, false);
         blockToAdd = new ArrayList<>();
+        start = new FontRenderer(TextManager.GAME,0,StaticFonts.monofonto, Window.width*0.05f,
+                new Vec2(Window.width*0.50f, Window.height*0.50f), Color4.WHITE.copy());
     }
 
     public void load(){
         discover = true;
-        GameScreen.tile = GameScreen.GAMETILESIZE;
-        reset();
-        time = 60*5/blockToPose;
-    }
-
-    public void begin(){
-
-        tHeight = currentMap[0].length*GameScreen.tile;
-        tWith = currentMap[0][0].length*GameScreen.tile;
-        if (tHeight > Window.height || tWith > Window.width) {
-            GameScreen.tile--;
-        }
-        else if(counter > DISCOVERTIME){
-            counter = -1;
-            discover = false;
-            GameScreen.tile = GameScreen.GAMETILESIZE;
-        }
-        counter++;
-        GameManager.CAMERA.setPosition(Window.width / 2 - tWith/2,Window.height / 2 - tHeight/2,true);
-    }
-
-    public void reset(){
+        GameScreen.entityManager.getPlayer().stop();
         count = 0;
         counter = 0;
+        tcounter = 0;
+        dcounter = 0;
         turnCounter = 0;
         death = false;
+        transition = false;
+        win = false;
         currentLevel = Config.getCurrentMap();
         currentMap = XmlReader.loadMap(currentLevel);
         chargeConfig();
         GameScreen.entityManager.setPosition(begin);
         path = new Vec2[blockToPose];
+        blockToAdd = new ArrayList<>();
+        GameScreen.tile = GameScreen.MAX_GAMETILESIZE;
+        time = 60 * 5 / blockToPose;
+    }
+
+    private void begin(){
+        GameScreen.entityManager.getPlayer().stop();
+        tHeight = currentMap[0].length*GameScreen.tile;
+        tWith = currentMap[0][0].length*GameScreen.tile;
+        if (tHeight > Window.height || tWith > Window.width) GameScreen.tile-=2;
+        counter++;
+        GameManager.CAMERA.setPosition(Window.width / 2 - tWith/2,Window.height / 2 - tHeight/2,false);
     }
 
     public void update(){
         if(discover){
             begin();
             return;
-        }
-        if(transition) {
-            if (counter > TRANSITIONTIME) {
-                counter = 0;
+        } else if(death){
+            death();
+        } else if(transition) {
+            if (tcounter > TRANSITIONTIME) {
+                tcounter = 0;
                 transition = false;
                 for(Integer[] block:blockToAdd){
                     currentMap[block[0]][block[1]][block[2]] = block[3];
                 }
                 blockToAdd = new ArrayList<>();
+                GameScreen.entityManager.getPlayer().stop();
             }
-            counter++;
+            tcounter++;
+        } else if(win) {
+            return;
         }
 
         try {
@@ -120,6 +127,8 @@ public class LevelManager {
             if(end.getX() == pos.getX()){
                 if(end.getY() == pos.getY()){
                     if(blockPosed >= blockToPose) {
+                        // Win !!!
+                        win = true;
                         Config.setMapConcluded(currentLevel,2);
                         if(Config.getMapConcluded(currentLevel+1) == 0) {
                             Config.setMapConcluded(currentLevel + 1, 1);
@@ -154,6 +163,10 @@ public class LevelManager {
                 TextureRenderer.image(a * size, i * size, size, size);
             }
         }
+        if(discover){
+            ShapeRenderer.rectC(new Vec2(0,0), new Vec2(Window.width,Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.3f));
+            start.renderC();
+        }
     }
 
     private void chargeConfig(){
@@ -162,6 +175,7 @@ public class LevelManager {
         for(int i = 0; i < currentMap[0].length; i++){
             for(int j = 0; j < currentMap[0][i].length; j++){
                 if(tileset[currentMap[0][i][j]].getType() == Tile.BEGIN){
+                    GameScreen.entityManager.getPlayer().setSide(currentMap[0][i][j]-6);
                     begin = new Vec2(j,i);
                 } else if(tileset[currentMap[0][i][j]].getType() == Tile.END){
                     end = new Vec2(j,i);
@@ -180,8 +194,6 @@ public class LevelManager {
         Integer[] add = new Integer[4];
         Vec2 tempPos = pos.copy();
         if(discover || death || newPos.equals("idle"))return tempPos;
-        if(pos.getX() <= 0 || pos.getX() >= currentMap[1][0].length-1)return tempPos;
-        if(pos.getY() <= 0 || pos.getY() >= currentMap[1].length-1)return tempPos;
 
         int posX = 0, posY  = 0;
         switch (newPos){
@@ -201,8 +213,12 @@ public class LevelManager {
 
         pos.setX(pos.getX()+ posX);
         pos.setY(pos.getY()+ posY);
+        if((pos.getX() < 0 || pos.getX() >= currentMap[1][0].length))return tempPos;
+        if(pos.getY() < 0 || pos.getY() >= currentMap[1].length)return tempPos;
+
         if(tileset[currentMap[0][(int)pos.getY()][(int)pos.getX()]].getType() == Tile.HOLE){
-            if(tileset[currentMap[1][(int)pos.getY()+posY][(int)pos.getX()+posX]].getType()!= Tile.SOLID){
+            if(tileset[currentMap[1][(int)pos.getY()+posY][(int)pos.getX()+posX]].getType() != Tile.SOLID &&
+                    tileset[currentMap[0][(int)pos.getY()+posY][(int)pos.getX()+posX]].getType() == Tile.EMPTY){
                 add[0] = 0; add[1] = (int)pos.getY(); add[2] = (int)pos.getX(); add[3] = 20;
                 blockToAdd.add(add);
                 addBlock((int)tempPos.getX(), (int)tempPos.getY());
@@ -224,8 +240,9 @@ public class LevelManager {
         return tempPos;
     }
 
-    public void nextTurn(){
+    private void nextTurn(){
         transition = true;
+        GameScreen.entityManager.getPlayer().start();
         turnCounter++;
         for(int i = 0; i < currentMap[0].length; i++){
             for(int j = 0; j < currentMap[0][i].length; j++){
@@ -238,7 +255,7 @@ public class LevelManager {
         }
     }
 
-    public void addBlock(int posX, int posY){
+    private void addBlock(int posX, int posY){
         if(tileset[currentMap[0][posY][posX]].getBlock()){
             Integer[] add = new Integer[4];
             add[0] = 0; add[1] = posY; add[2] = posX; add[3] = 0;
@@ -254,14 +271,14 @@ public class LevelManager {
         }
     }
 
-    public int checkType(Vec2 pos){
-        return tileset[currentMap[0][(int)pos.getY()][(int)pos.getX()]].getType();
-    }
+    public int checkType(Vec2 pos){ return tileset[currentMap[0][(int)pos.getY()][(int)pos.getX()]].getType(); }
 
     public void death(){
         death = true;
-        if(counter > DEATHTIME) GameScreen.entityManager.getPlayer().died();
-            counter++;
+        if(dcounter > DEATHTIME){
+            GameScreen.entityManager.getPlayer().died();
+        }
+        dcounter++;
     }
 
     public void finish() {
@@ -304,9 +321,21 @@ public class LevelManager {
 
     public boolean getTransition(){return transition;}
 
+    public boolean getBegin(){return discover;}
+
+    public boolean getDeath(){return death;}
+
+    public boolean getWin(){return win;}
+
+    public void setPlay(){
+        if(GameScreen.tile < GameScreen.MIN_GAMETILESIZE) GameScreen.tile = GameScreen.MIN_GAMETILESIZE;
+        discover = false;
+    }
+
     public void unload(){
         for(Tile tile : tileset){
             tile.unload();
         }
+        start.unload();
     }
 }

@@ -1,7 +1,6 @@
 package box_overflow.screen.screens;
 
 import box_overflow.entity.type.Player;
-import box_overflow.game.Hud;
 import box_overflow.entity.EntityManager;
 import box_overflow.game.LevelManager;
 import box_overflow.main.Config;
@@ -21,11 +20,11 @@ import box_overflow.util.math.Vec2;
  */
 public class GameScreen extends Screen {
 
-    public static int GAMETILESIZE = 64;
+    public static int MAX_GAMETILESIZE = 96;
 
-    public static int tile = 64;
+    public static int MIN_GAMETILESIZE = 64;
 
-    public static Hud hud;
+    public static int tile = 256;
 
     /**
      * The entity manager manage every entity of the game.
@@ -64,17 +63,7 @@ public class GameScreen extends Screen {
      */
     public GameScreen(GameManager gameManager) {
         super(gameManager);
-
-        /*File test = new File("data/saves");
-        if(!test.exists() && !test.isDirectory()){
-            System.out.println("Create file save");
-            File save = new File("data\\saves");
-            save.mkdirs();
-        }*/
-
-        hud = new Hud();
-
-        Render.setClearColor(new Color4(0.2f, 0.2f, 0.2f, 1f));
+        Render.setClearColor(new Color4(0.1f, 0.1f, 0.1f, 1f));
         System.out.println("\n-------------------------- \n");
 
         /* Init gameScreen's variables */
@@ -129,14 +118,13 @@ public class GameScreen extends Screen {
      * Update the player and the map.
      */
     private void updateGame() {
-        if(GameManager.inputsManager.inputPressed(0))screenState = STATE_PAUSE;
+        if(GameManager.inputsManager.inputPressed(0) && getState() == STATE_NORMAL)screenState = STATE_PAUSE;
         // Update player
         lvm.update();
         entityManager.update();
 
         //GameManager.CAMERA.setPosition(true);
         GameManager.CAMERA.setPosition(true);
-        hud.update();
         entityManager.dispose();
     }
 
@@ -150,7 +138,6 @@ public class GameScreen extends Screen {
         switch (screenState) {
             case STATE_NORMAL:
                 displayGame();
-                hud.display();
                 break;
             case STATE_PAUSE:
                 displayGame();
@@ -177,7 +164,6 @@ public class GameScreen extends Screen {
      * Unload the texture to free memory.
      */
     public void unload() {
-        hud.unload();
         pause.unload();
         option.unload();
         win.unload();

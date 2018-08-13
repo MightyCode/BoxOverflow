@@ -8,8 +8,6 @@ package box_overflow.main;
  */
 public class Box_Overflow {
 
-    public static boolean admin;
-
     /**
      * Window.
      * This global variable contains all of the main game structure.
@@ -20,8 +18,6 @@ public class Box_Overflow {
      * Run the game.
      */
     public static void main(String[] args) {
-            admin = true;
-
         window = new Window();
         window.run();
     }

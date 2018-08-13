@@ -1,7 +1,6 @@
 package box_overflow.screen.overlay;
 
 import box_overflow.main.Window;
-import box_overflow.screen.GameManager;
 import box_overflow.screen.screens.Screen;
 
 /**

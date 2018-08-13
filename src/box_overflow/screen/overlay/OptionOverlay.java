@@ -3,9 +3,7 @@ package box_overflow.screen.overlay;
 import box_overflow.main.Config;
 import box_overflow.main.Window;
 import box_overflow.entity.gui.GUIButton;
-import box_overflow.entity.gui.GUISlider;
 import box_overflow.screen.render.text.FontRenderer;
-import box_overflow.sound.SoundManager;
 import box_overflow.util.TextManager;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
@@ -32,14 +30,14 @@ public class OptionOverlay extends Overlay {
     /**
      * GUIButton to choose the categories
      */
-    private GUIButton general, video, inputs;
+    private GUIButton general, quit;
 
     /**
      * Inputs for general
      */
     private GUICheckBox language, spew;
-    private GUISlider musicVolume;
-    private GUISlider noiseVolume;
+    /*private GUISlider musicVolume;
+    private GUISlider noiseVolume;*/
 
     /**
      * Option overlay class constructor.
@@ -55,43 +53,17 @@ public class OptionOverlay extends Overlay {
         Color4 hoverTextColor = Color4.BLACK;
 
         general = new GUIButton(
-                new Vec2(Window.width * 0.2f, Window.height * 0.3f), size,
+                new Vec2(Window.width * 0.50f, Window.height * 0.3f), size,
                 TextManager.OPTIONS,0, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor,this
         ) {
             @Override public void action() {
                 lock = true;
-                video.setLock(false);
-                inputs.setLock(false);
                 overlay.setState(0);
             }
         };
 
         general.setMouseOver(true);
         general.setLock(true);
-
-        video = new GUIButton(
-                new Vec2(Window.width * 0.5f, Window.height * 0.3f),
-                size, TextManager.OPTIONS,1, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor,this
-        ) {
-            @Override public void action() {
-                lock = true;
-                general.setLock(false);
-                inputs.setLock(false);
-                overlayState = 1;
-            }
-        };
-
-        inputs = new GUIButton(
-                new Vec2(Window.width * 0.8f, Window.height * 0.3f),
-                size, TextManager.OPTIONS,2, StaticFonts.monofonto, backgroundColor, hoverColor, textColor, hoverTextColor,this
-        ) {
-            @Override public void action() {
-                lock = true;
-                video.setLock(false);
-                video.setLock(false);
-                overlay.setState(2);
-            }
-        };
 
         language = new GUICheckBox(
                 new Vec2(Window.width*0.5f, Window.height*0.41f),
@@ -109,7 +81,7 @@ public class OptionOverlay extends Overlay {
         };
         language.setState(Config.getLanguage().equals("en"));
 
-        musicVolume = new GUISlider(
+        /*musicVolume = new GUISlider(
                 new Vec2(Window.width*0.20f, Window.height*0.41f) ,
                 new Vec2(Window.width*0.125f, Window.height*0.1f),
                 TextManager.OPTIONS,6, StaticFonts.monofonto, textColor, hoverTextColor,0,100, Config.getMusicVolume()
@@ -129,12 +101,12 @@ public class OptionOverlay extends Overlay {
             public void action () {
                 SoundManager.setNoiseVolume((int)value);
             }
-        };
+        };*/
         option = new FontRenderer(TextManager.OPTIONS,8, StaticFonts.IBM, Window.height*0.1f,
                 new Vec2(Window.width * 0.5f, Window.height * 0.05f), Color4.BLACK);
 
         spew = new GUICheckBox(
-                new Vec2(Window.width*0.5f, Window.height*0.41f),
+                new Vec2(Window.width*0.5f, Window.height*0.53f),
                 new Vec2(Window.width*0.125f, Window.height*0.1f),
                 TextManager.OPTIONS,3, StaticFonts.monofonto, textColor, hoverTextColor
         ){
@@ -144,6 +116,23 @@ public class OptionOverlay extends Overlay {
             }
         };
         spew.setState(Config.getSpew()?1:0);
+
+        quit = new GUIButton(
+                new Vec2(Window.width * 0.5f, Window.height * 0.90f),
+                size,
+                TextManager.OPTIONS,5,
+                StaticFonts.monofonto,
+                backgroundColor,
+                hoverColor,
+                textColor,
+                hoverTextColor
+        ) {
+            @Override
+            public void action(){
+                quit();
+            }
+        };
+
     }
 
     /**
@@ -153,21 +142,11 @@ public class OptionOverlay extends Overlay {
         if(GameManager.inputsManager.inputPressed(0))  quit();
 
         general.update();
-        video.update();
-        inputs.update();
-
-        switch (overlayState){
-            case 0:
-                language.update();
-                musicVolume.update();
-                noiseVolume.update();
-                break;
-            case 1:
-                spew.update();
-                break;
-            case 2:
-                break;
-        }
+        language.update();
+        /*musicVolume.update();
+        noiseVolume.update();*/
+        spew.update();
+        quit.update();
     }
 
     /**
@@ -178,21 +157,11 @@ public class OptionOverlay extends Overlay {
 
         option.renderC();
         general.display();
-        video.display();
-        inputs.display();
-
-        switch (overlayState){
-            case 0:
-                language.display();
-                musicVolume.display();
-                noiseVolume.display();
-                break;
-            case 1:
-                spew.display();
-                break;
-            case 2:
-                break;
-        }
+        language.display();
+        /*musicVolume.display();
+        noiseVolume.display();*/
+        spew.display();
+        quit.display();
     }
 
     /**
@@ -211,14 +180,12 @@ public class OptionOverlay extends Overlay {
 
         // Main part buttons
         general.unload();
-        video.unload();
-        inputs.unload();
 
         // Language
         language.unload();
-        musicVolume.unload();
-        noiseVolume.unload();
-
+        /*musicVolume.unload();
+        noiseVolume.unload();*/
         spew.unload();
+        quit.unload();
     }
 }

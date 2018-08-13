@@ -15,7 +15,6 @@ import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.system.MemoryStack.stackPush;
@@ -220,7 +219,7 @@ public class Window implements GLFWWindowFocusCallbackI {
             }
 
             if (timer.getDuration() - lastSecond >= SECOND) {
-                if(Box_Overflow.admin) glfwSetWindowTitle(windowID, "Box Overflow | FPS:" + frames + "; TPS:" + ticks);
+                glfwSetWindowTitle(windowID, "Box Overflow | FPS:" + frames);
                 ticks = frames = 0;
                 lastSecond += SECOND;
             }

@@ -4,9 +4,6 @@ import box_overflow.entity.Eobject.Emoveable;
 import box_overflow.entity.type.Player;
 import box_overflow.main.Window;
 import box_overflow.screen.screens.GameScreen;
-import box_overflow.util.math.Color4;
-import box_overflow.util.math.Vec2;
-import box_overflow.screen.render.shape.ShapeRenderer;
 
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
@@ -44,32 +41,12 @@ public class Camera {
      */
     private float tweenY;
 
-
     /**
      * The entity that will follow the camera.
      */
     private Emoveable user;
 
-    private boolean breake;
-
-
-    /**
-     * Minimal position x of camera.
-     * This variable contains the minimal position x of the camera use to stop the scrolling.
-     */
-    private int xMin;
-    /**
-     * Minimal position y of camera.
-     * This variable contains the minimal position y of the camera use to stop the scrolling.
-     */
-
-    private int yMin;
-
-    /**
-     * Maximal position x of camera.
-     * This variable contains the maximal position x of the camera use to stop the scrolling.
-     */
-    private int xMax;
+    private boolean breaks;
 
     /**
      * Maximal position y of camera.
@@ -83,18 +60,19 @@ public class Camera {
     }
 
     public void setPosition(boolean isTween){
-        if(breake){
-            breake = false;
+        if(breaks){
+            breaks = false;
             return;
         }
-        int posX = (int)( Window.width / 2 - user.getPos().getX()*GameScreen.tile);
-        int posY = (int)( Window.height / 2 - user.getPos().getY()*GameScreen.tile);
+
+        int posX = (int)( Window.width / 2 - user.getPos().getX()*GameScreen.tile + ((Player)user).getDelta().getX());
+        int posY = (int)( Window.height / 2 - user.getPos().getY()* GameScreen.tile + ((Player)user).getDelta().getY ());
         setPosition(posX, posY, isTween);
-        breake = false;
+        breaks = false;
     }
 
     public void setPosition(float posX, float posY, boolean isTween){
-        breake = true;
+        breaks = true;
         float newTweenX = (isTween)? tweenX : 1;
         float newTweenY = (isTween)? tweenY : 1;
 
@@ -102,28 +80,7 @@ public class Camera {
 
         this.posX += (int)((posX - this.posX) * newTweenX);
         this.posY += (int)((posY - this.posY) * newTweenY);
-        //fixBounds();
     }
-
-    /*
-    private void fixBounds() {
-        if(posX > xMin){
-            glTranslatef(xMin - posX,0,0);
-            posX = xMin;
-        } else if (posX < xMax){
-            glTranslatef(xMax - posX,0,0);
-            posX = xMax;
-        }
-
-        if(posY > yMin){
-            glTranslatef(0,yMin - posY,0);
-            posY = yMin;
-        } else if (posY < yMax){
-            glTranslatef(0, yMax - posY ,0);
-            posY = yMax;
-        }
-    }*/
-
 
     /**
      * Set the camera tween.
@@ -143,47 +100,6 @@ public class Camera {
      */
     public void setEntityToCamera(Emoveable newUser){
         this.user = newUser;
-    }
-
-    /**
-     * Set the maximum corner.
-     *
-     * @param xMax The position x of the maximum.
-     * @param yMax The position y of the maximum.
-     */
-    public void setBoundMax(int xMax, int yMax){
-        this.xMax = xMax;
-        this.yMax = yMax;
-    }
-
-    /**
-     * Set the minimum corner.
-     *
-     * @param xMin The position x of the minimum.
-     * @param yMin The position y of the minimum.
-     */
-    public void setBoundMin(int xMin, int yMin){
-        this.xMin = xMin;
-        this.yMin = yMin;
-    }
-
-    /**
-     * Set the map position x.
-     *
-     * @param posX New position x of the camera.
-     */
-    public void setPosX(int posX){
-        glTranslatef(posX - this.posX , 0,0);
-    }
-
-    /**
-     * Set the map position y.
-     *
-     * @param posY New position y of the camera.
-     */
-    public void setPosY(int posY){
-        glTranslatef(0, posY - this.posY ,0);
-        this.posY = posY;
     }
 
     /**
