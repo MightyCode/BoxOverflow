@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class LevelManager {
 
     private static final int DEATHTIME = 60;
-    public static final int TRANSITIONTIME = (int)(24);
+    public static final int TRANSITIONTIME = (int)(18);
 
     private FontRenderer start, level;
 
