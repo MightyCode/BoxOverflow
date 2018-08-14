@@ -20,7 +20,7 @@ public class LevelManager {
     private static final int DEATHTIME = 60;
     public static final int TRANSITIONTIME = (int)(24);
 
-    private FontRenderer start;
+    private FontRenderer start, level;
 
     private int currentLevel;
     private int[][][] currentMap;
@@ -33,9 +33,11 @@ public class LevelManager {
 
     private Vec2 path[];
 
+    private int previousTileSize;
+
     private int turnCounter;
 
-    private boolean discover, death, transition, win;
+    private boolean discover, death, transition, win, zoom;
     private int tWith, tHeight;
     private int counter, count, tcounter, dcounter;
     private int time;
@@ -69,9 +71,13 @@ public class LevelManager {
         blockToAdd = new ArrayList<>();
         start = new FontRenderer(TextManager.GAME,0,StaticFonts.monofonto, Window.width*0.05f,
                 new Vec2(Window.width*0.50f, Window.height*0.50f), Color4.WHITE.copy());
+        level = new FontRenderer("",StaticFonts.monofonto, Window.width*0.05f,
+                new Vec2(Window.width*0.50f, Window.height*0.10f), new Color4(1,1,1,0.8f));
     }
 
     public void load(){
+        level.setText("Level : " + String.valueOf(Config.getCurrentMap()));
+        zoom = true;
         discover = true;
         GameScreen.entityManager.getPlayer().stop();
         count = 0;
@@ -96,7 +102,7 @@ public class LevelManager {
         GameScreen.entityManager.getPlayer().stop();
         tHeight = currentMap[0].length*GameScreen.tile;
         tWith = currentMap[0][0].length*GameScreen.tile;
-        if (tHeight > Window.height || tWith > Window.width) GameScreen.tile-=2;
+        if (tHeight > Window.height || tWith > Window.width) GameScreen.tile-=1;
         counter++;
         GameManager.CAMERA.setPosition(Window.width / 2 - tWith/2,Window.height / 2 - tHeight/2,false);
     }
@@ -120,6 +126,12 @@ public class LevelManager {
             tcounter++;
         } else if(win) {
             return;
+        }
+
+        if(zoom){
+            if(previousTileSize > GameScreen.tile) GameScreen.tile+=1;
+            else if (previousTileSize > GameScreen.tile)GameScreen.tile-=1;
+            else zoom = false;
         }
 
         try {
@@ -166,6 +178,7 @@ public class LevelManager {
         if(discover){
             ShapeRenderer.rectC(new Vec2(0,0), new Vec2(Window.width,Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.3f));
             start.renderC();
+            level.renderC();
         }
     }
 
@@ -188,6 +201,21 @@ public class LevelManager {
                 if(tileset[currentMap[0][i][j]].getBlock()) blockToPose++;
             }
         }
+    }
+
+    public void fullmap(){
+        begin();
+       counter--;
+    }
+
+    public void saveTileSize(){
+        previousTileSize = GameScreen.tile;
+        GameManager.CAMERA.setPosition(Window.width / 2 - tWith/2,Window.height / 2 - tHeight/2,true);
+    }
+
+    public void retur(){
+        discover = false;
+        setPlay();
     }
 
     public Vec2 newPos(Vec2 pos, String newPos){
@@ -328,7 +356,9 @@ public class LevelManager {
     public boolean getWin(){return win;}
 
     public void setPlay(){
-        if(GameScreen.tile < GameScreen.MIN_GAMETILESIZE) GameScreen.tile = GameScreen.MIN_GAMETILESIZE;
+        if(GameScreen.tile < GameScreen.MIN_GAMETILESIZE) previousTileSize = GameScreen.MIN_GAMETILESIZE;
+
+        zoom = true;
         discover = false;
     }
 
@@ -337,5 +367,6 @@ public class LevelManager {
             tile.unload();
         }
         start.unload();
+        level.unload();
     }
 }

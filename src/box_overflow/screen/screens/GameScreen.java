@@ -100,6 +100,7 @@ public class GameScreen extends Screen {
                 updateGame();
                 break;
             case STATE_PAUSE:
+                lvm.fullmap();
                 pause.update();
                 break;
             case STATE_OPTION:
@@ -118,7 +119,10 @@ public class GameScreen extends Screen {
      * Update the player and the map.
      */
     private void updateGame() {
-        if(GameManager.inputsManager.inputPressed(0) && getState() == STATE_NORMAL)screenState = STATE_PAUSE;
+        if(GameManager.inputsManager.inputPressed(0) && getState() == STATE_NORMAL){
+            screenState = STATE_PAUSE;
+            lvm.saveTileSize();
+        }
         // Update player
         lvm.update();
         entityManager.update();

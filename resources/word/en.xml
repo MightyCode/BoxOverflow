@@ -58,13 +58,14 @@
     </screen>
 
     <!--  5 - ++ : help overlay -->
-    <screen id="5" number="5">
+    <screen id="5" number="6">
         <sentence
                 s0="Help"
                 s1="Controls"
                 s2="Reset the map"
                 s3="To end the level you have to fill it and join the exit"
                 s4="Quit"
+                s5="Press escape see the full map"
         />
     </screen>
 </word>

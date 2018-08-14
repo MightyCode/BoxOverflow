@@ -41,13 +41,13 @@ public class PauseOverlay extends Overlay{
         // Init variable
 
         // Title
-        pause = new FontRenderer(TextManager.PAUSE,0, StaticFonts.IBM, Window.width*0.05f, new Vec2(), Color4.WHITE);
+        pause = new FontRenderer(TextManager.PAUSE,0, StaticFonts.IBM, Window.width*0.05f, new Vec2(), new Color4(1,1,1,0.8f));
         pause.setPos(new Vec2(Window.width * 0.5f, Window.height * 0.20f));
 
-        Vec2 size = new Vec2(Window.width / 4f, Window.height / 20f);
+        Vec2 size = new Vec2(Window.width * 0.25f, Window.height * 0.05f);
         Color4 backgroundColor = new Color4(0.40f, 0.65f, 0.65f, 0.5f);
         Color4 hoverColor = new Color4(0.40f, 0.65f, 0.65f, 0.95f);
-        Color4 textColor = new Color4(0.8f, 0.8f, 0.8f, 1.0f);
+        Color4 textColor = new Color4(0.8f, 0.8f, 0.8f, 0.8f);
         Color4 hoverTextColor = Color4.WHITE;
 
         continuer = new GUIButton(
@@ -61,6 +61,7 @@ public class PauseOverlay extends Overlay{
         ){
             @Override
             public void action () {
+                GameScreen.lvm.retur();
                 Window.gameManager.setState(GameScreen.STATE_NORMAL);
             }
         };
@@ -116,9 +117,9 @@ public class PauseOverlay extends Overlay{
      */
     public void display(){
         // Black rectangle
-        ShapeRenderer.rectC(new Vec2(), new Vec2(Window.width, Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.6f));
+        ShapeRenderer.rectC(new Vec2(), new Vec2(Window.width, Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.3f));
         ShapeRenderer.rectC(new Vec2(0.1f * Window.width, 0.15f * Window.height),
-                new Vec2(0.8f * Window.width, 0.75f * Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.5f));
+                new Vec2(0.8f * Window.width, 0.75f * Window.height), new Color4(0.0f, 0.0f, 0.0f, 0.2f));
 
         // Textures and button
         pause.renderC();

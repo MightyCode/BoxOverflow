@@ -38,7 +38,7 @@
                 s1="Vidéo"
                 s2=""
                 s3="Mode suivi"
-                s4="En anglais"
+                s4="En français"
                 s5="Quitter"
                 s6="Music : "
                 s7="Bruit : "
@@ -58,13 +58,14 @@
     </screen>
 
     <!--  5 - ++ : help overlay -->
-    <screen id="5" number="5">
+    <screen id="5" number="6">
         <sentence
                 s0="Aide"
                 s1="Deplacement"
                 s2="Recommencer la map"
-                s3="Pour réussir le niveau vous devez le remplir entièrement et sortir"
+                s3="Pour réussir un niveau vous devez le remplir entièrement et sortir"
                 s4="Quitter"
+                s5="Appuyer sur échap pour voir l'intégralité de la map"
         />
     </screen>
 </word>
