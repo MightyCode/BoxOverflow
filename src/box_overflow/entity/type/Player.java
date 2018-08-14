@@ -3,14 +3,11 @@ package box_overflow.entity.type;
 import box_overflow.entity.Eobject.Echaracter;
 import box_overflow.game.LevelManager;
 import box_overflow.game.Tile;
-import box_overflow.inputs.KeyboardManager;
 import box_overflow.screen.GameManager;
 import box_overflow.screen.render.Animation;
 import box_overflow.screen.render.texture.TextureRenderer;
 import box_overflow.screen.screens.GameScreen;
 import box_overflow.util.math.Vec2;
-
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
 
 /**
  * Player class.
@@ -102,7 +99,7 @@ public class Player extends Echaracter {
 		pos = GameScreen.lvm.newPos(pos.copy(), nextPosition);
 		initDelta.setPosition(-this.pos.getX() + temp.getX(), -this.pos.getY() + temp.getY());
 		delta = new Vec2(-initDelta.getX()*GameScreen.tile,-initDelta.getY()*GameScreen.tile);
-		if(GameScreen.lvm.checkType(pos) == Tile.DEATH){
+		if(GameScreen.lvm.checkType(pos, Tile.DEATH)){
 			GameScreen.lvm.death();
 			delta = new Vec2();
 		}
@@ -115,6 +112,7 @@ public class Player extends Echaracter {
 		if(animationPlayed == 1 || animationPlayed == 3 || animationPlayed == 5 || animationPlayed == 7 || animationPlayed == 8) {
 			sizet.setX(sizet.getX() * 1.20f);
 		}
+
 
 		if(animationPlayed >= 4 && animationPlayed <= 7){
 			TextureRenderer.image(

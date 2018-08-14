@@ -46,28 +46,28 @@ public class LevelManager {
 
     public LevelManager(){
         tileset = new Tile[22];
-        tileset[0] = new Tile();
-        tileset[1] = new Tile("/textures/tileset/ground.png",0,true);
-        tileset[2] = new Tile("/textures/tileset/box1.png",1, false);
-        tileset[3] = new Tile("/textures/tileset/box2.png",1, false);
-        tileset[4] = new Tile("/textures/tileset/boxp1.png",1, false);
-        tileset[5] = new Tile("/textures/tileset/boxp2.png",1, false);
-        tileset[6] = new Tile("/textures/tileset/arrow-left.png",2, false);
-        tileset[7] = new Tile("/textures/tileset/arrow-up.png",2, false);
-        tileset[8] = new Tile("/textures/tileset/arrow-right.png",2, false);
-        tileset[9] = new Tile("/textures/tileset/arrow-down.png",2, false);
-        tileset[10] = new Tile("/textures/tileset/end-left.png",3, false);
-        tileset[11] = new Tile("/textures/tileset/end-up.png",3, false);
-        tileset[12] = new Tile("/textures/tileset/end-right.png",3, false);
-        tileset[13] = new Tile("/textures/tileset/end-down.png",3, false);
-        tileset[14] = new Tile("/textures/tileset/pillar.png",1, false);
-        tileset[15] = new Tile("/textures/tileset/pillarh.png",1, false);
-        tileset[16] = new Tile("/textures/tileset/door.png",1, false);
-        tileset[17] = new Tile("/textures/tileset/nopic.png",0, true);
-        tileset[18] = new Tile("/textures/tileset/pic.png",5, true);
-        tileset[19] = new Tile("/textures/tileset/hole.png",4, true);
-        tileset[20] = new Tile("/textures/tileset/noHole.png",0, true);
-        tileset[21] = new Tile("/textures/tileset/croix.png",0, false);
+        tileset[0] = new Tile(0);
+        tileset[1] = new Tile("/textures/tileset/ground.png",0, 6);
+        tileset[2] = new Tile("/textures/tileset/box1.png", 1);
+        tileset[3] = new Tile("/textures/tileset/box2.png",  1);
+        tileset[4] = new Tile("/textures/tileset/boxp1.png", 1);
+        tileset[5] = new Tile("/textures/tileset/boxp2.png",  1);
+        tileset[6] = new Tile("/textures/tileset/arrow-left.png", 2);
+        tileset[7] = new Tile("/textures/tileset/arrow-up.png",  2);
+        tileset[8] = new Tile("/textures/tileset/arrow-right.png", 2);
+        tileset[9] = new Tile("/textures/tileset/arrow-down.png", 2);
+        tileset[10] = new Tile("/textures/tileset/end-left.png", 3);
+        tileset[11] = new Tile("/textures/tileset/end-up.png",  3);
+        tileset[12] = new Tile("/textures/tileset/end-right.png", 3);
+        tileset[13] = new Tile("/textures/tileset/end-down.png", 3);
+        tileset[14] = new Tile("/textures/tileset/pillar.png", 1);
+        tileset[15] = new Tile("/textures/tileset/pillarh.png", 1);
+        tileset[16] = new Tile("/textures/tileset/door.png", 1);
+        tileset[17] = new Tile("/textures/tileset/nopic.png",  0, 6);
+        tileset[18] = new Tile("/textures/tileset/pic.png",  5, 0, 6);
+        tileset[19] = new Tile("/textures/tileset/hole.png", 4, 6);
+        tileset[20] = new Tile("/textures/tileset/noHole.png",  0, 6);
+        tileset[21] = new Tile("/textures/tileset/croix.png", 0);
         blockToAdd = new ArrayList<>();
         start = new FontRenderer(TextManager.GAME,0,StaticFonts.monofonto, Window.width*0.05f,
                 new Vec2(Window.width*0.50f, Window.height*0.50f), Color4.WHITE.copy());
@@ -187,10 +187,10 @@ public class LevelManager {
         blockPosed = 0;
         for(int i = 0; i < currentMap[0].length; i++){
             for(int j = 0; j < currentMap[0][i].length; j++){
-                if(tileset[currentMap[0][i][j]].getType() == Tile.BEGIN){
+                if(tileset[currentMap[0][i][j]].isType(Tile.BEGIN)){
                     GameScreen.entityManager.getPlayer().setSide(currentMap[0][i][j]-6);
                     begin = new Vec2(j,i);
-                } else if(tileset[currentMap[0][i][j]].getType() == Tile.END){
+                } else if(tileset[currentMap[0][i][j]].isType(Tile.END)){
                     end = new Vec2(j,i);
                 }
             }
@@ -198,7 +198,7 @@ public class LevelManager {
 
         for(int i = 0; i < currentMap[0].length; i++){
             for(int j = 0; j < currentMap[0][i].length; j++){
-                if(tileset[currentMap[0][i][j]].getBlock()) blockToPose++;
+                if(tileset[currentMap[0][i][j]].isType(Tile.POSEABLE)) blockToPose++;
             }
         }
     }
@@ -244,9 +244,9 @@ public class LevelManager {
         if((pos.getX() < 0 || pos.getX() >= currentMap[1][0].length))return tempPos;
         if(pos.getY() < 0 || pos.getY() >= currentMap[1].length)return tempPos;
 
-        if(tileset[currentMap[0][(int)pos.getY()][(int)pos.getX()]].getType() == Tile.HOLE){
-            if(tileset[currentMap[1][(int)pos.getY()+posY][(int)pos.getX()+posX]].getType() != Tile.SOLID &&
-                    tileset[currentMap[0][(int)pos.getY()+posY][(int)pos.getX()+posX]].getType() == Tile.EMPTY){
+        if(tileset[currentMap[0][(int)pos.getY()][(int)pos.getX()]].isType( Tile.HOLE)){
+            if(!tileset[currentMap[1][(int)pos.getY()+posY][(int)pos.getX()+posX]].isType(Tile.SOLID) &&
+                    tileset[currentMap[0][(int)pos.getY()+posY][(int)pos.getX()+posX]].isType(Tile.EMPTY)){
                 add[0] = 0; add[1] = (int)pos.getY(); add[2] = (int)pos.getX(); add[3] = 20;
                 blockToAdd.add(add);
                 addBlock((int)tempPos.getX(), (int)tempPos.getY());
@@ -259,7 +259,7 @@ public class LevelManager {
             }
         }
 
-        if(tileset[currentMap[1][(int)pos.getY()][(int)pos.getX()]].getType() != Tile.SOLID){
+        if(!tileset[currentMap[1][(int)pos.getY()][(int)pos.getX()]].isType(Tile.SOLID)){
             addBlock((int)tempPos.getX(), (int)tempPos.getY());
             nextTurn();
             return pos;
@@ -284,7 +284,7 @@ public class LevelManager {
     }
 
     private void addBlock(int posX, int posY){
-        if(tileset[currentMap[0][posY][posX]].getBlock()){
+        if(tileset[currentMap[0][posY][posX]].isType(Tile.POSEABLE)){
             Integer[] add = new Integer[4];
             add[0] = 0; add[1] = posY; add[2] = posX; add[3] = 0;
             blockToAdd.add(add);
@@ -299,7 +299,7 @@ public class LevelManager {
         }
     }
 
-    public int checkType(Vec2 pos){ return tileset[currentMap[0][(int)pos.getY()][(int)pos.getX()]].getType(); }
+    public boolean checkType(Vec2 pos, int type){ return tileset[currentMap[0][(int)pos.getY()][(int)pos.getX()]].isType(type); }
 
     public void death(){
         death = true;
