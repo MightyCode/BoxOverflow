@@ -93,4 +93,11 @@ public class SoundManager {
             sound.get(currentKey).reload();
         }
     }
+
+    public void unload(){
+        for(String index : sound.keySet()) {
+            sound.get(index).remove();
+        }
+        sound = new HashMap<>();
+    }
 }

@@ -24,6 +24,8 @@ import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -114,7 +116,7 @@ public class Texture {
     public void load(String path) {
         try {
             this.path = path;
-            BufferedImage image = ImageIO.read(getClass().getResourceAsStream(this.path));
+            BufferedImage image = ImageIO.read(new FileInputStream("resources" + this.path));
             createImage(image);
         } catch (Exception e) {
             e.printStackTrace();

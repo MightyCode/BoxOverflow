@@ -1,8 +1,6 @@
 package box_overflow.screen.render.text;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +48,7 @@ public class FontFile {
     public FontFile(String path) {
         try {
 
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(path)));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("resources" + path));
 
             String line;
             Map<String, String> values = new HashMap<String, String>();

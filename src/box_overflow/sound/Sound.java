@@ -1,7 +1,10 @@
 package box_overflow.sound;
 
+import com.sun.xml.internal.ws.api.ResourceLoader;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.File;
+import java.io.InputStream;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
@@ -36,7 +39,7 @@ public class Sound {
         stackPush();
         IntBuffer sampleRateBuffer = stackMallocInt(1);
 
-        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(path, channelsBuffer, sampleRateBuffer);
+        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename("resources" + path, channelsBuffer, sampleRateBuffer);
 
         //Retreive the extra information that was stored in the buffers by the function
         int channels = channelsBuffer.get();

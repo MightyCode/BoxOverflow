@@ -138,6 +138,7 @@ public class GameManager {
         currentScreen.unload();
         currentScreen = null;
         StaticFonts.unload();
+        GameManager.soundManager.unload();
     }
 
     public Screen getScreen(){

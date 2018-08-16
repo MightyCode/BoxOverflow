@@ -46,7 +46,7 @@ public class Config {
             File config = new File("data/config");
             config.mkdirs();
 
-            if(!FileMethods.copyFromJar("/config/configOriginal.xml","data/config/config.xml")){
+            if(!FileMethods.copy("resources/config/configOriginal.xml","data/config/config.xml")){
                 System.out.println("Error on creation of Data");
                 Window.exit();
             }
@@ -57,7 +57,7 @@ public class Config {
             System.out.println("Create file Config");
             File config = new File("data/config");
             config.mkdirs();
-            if(!FileMethods.copyFromJar("/config/configOriginal.xml","data/config/config.xml")){
+            if(!FileMethods.copy("resources/config/configOriginal.xml","data/config/config.xml")){
                 System.out.println("Error on creation of config");
                 Window.exit();
             }
@@ -67,7 +67,7 @@ public class Config {
         test = new File(Config.CONFIG_PATH);
         if (!test.exists() && !test.isDirectory()){
             System.out.println("Create file Config.xml");
-            if(!FileMethods.copyFromJar("/config/configOriginal.xml","data/config/config.xml")){
+            if(!FileMethods.copy("resources/config/configOriginal.xml","data/config/config.xml")){
                 System.out.println("Error on creation of Config.xml");
                 Window.exit();
             }

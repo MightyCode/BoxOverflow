@@ -212,7 +212,7 @@ public class MenuScreen extends Screen {
                 new Vec2(Window.width*0.5f, Window.height*0.90f), Color4.BLACK.copy());
         oHelp = new HelpOverlay(this);
 
-        GameManager.soundManager.addSound("resources/sfx/music1.ogg", Sound.MUSIC, music, true);
+        GameManager.soundManager.addSound("/sfx/music1.ogg", Sound.MUSIC, music, true);
         GameManager.soundManager.play(music);
     }
 

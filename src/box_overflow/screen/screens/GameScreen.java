@@ -93,7 +93,7 @@ public class GameScreen extends Screen {
         lvm = new LevelManager();
         lvm.load();
 
-        GameManager.soundManager.addSound("resources/sfx/music2.ogg", Sound.MUSIC, music, true);
+        GameManager.soundManager.addSound("/sfx/music2.ogg", Sound.MUSIC, music, true);
         GameManager.soundManager.play(music);
     }
 
