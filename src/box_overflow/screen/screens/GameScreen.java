@@ -8,6 +8,7 @@ import box_overflow.main.Window;
 import box_overflow.screen.overlay.*;
 import box_overflow.screen.render.Render;
 import box_overflow.screen.GameManager;
+import box_overflow.sound.Sound;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
 
@@ -55,6 +56,8 @@ public class GameScreen extends Screen {
 
     public static LevelManager lvm;
 
+    private String music = "music-game";
+
     /**
      * Game screen class constructor.
      * Instance the class and set all of the GameScreen's variables.
@@ -89,6 +92,9 @@ public class GameScreen extends Screen {
 
         lvm = new LevelManager();
         lvm.load();
+
+        GameManager.soundManager.addSound("resources/sfx/music2.ogg", Sound.MUSIC, music, true);
+        GameManager.soundManager.play(music);
     }
 
     /**
@@ -174,6 +180,7 @@ public class GameScreen extends Screen {
         lvm.unload();
         entityManager.removeAll();
         entityManager.getPlayer().unload();
+        GameManager.soundManager.remove(music);
     }
 
     /**

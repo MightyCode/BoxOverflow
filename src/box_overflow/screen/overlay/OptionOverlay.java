@@ -1,11 +1,13 @@
 package box_overflow.screen.overlay;
 
+import box_overflow.entity.gui.GUISlider;
 import box_overflow.main.Config;
 import box_overflow.main.Window;
 import box_overflow.entity.gui.GUIButton;
 import box_overflow.screen.render.text.FontRenderer;
 import box_overflow.screen.render.texture.Texture;
 import box_overflow.screen.render.texture.TextureRenderer;
+import box_overflow.sound.SoundManager;
 import box_overflow.util.TextManager;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
@@ -40,6 +42,8 @@ public class OptionOverlay extends Overlay {
     private GUICheckBox language, spew;
 
     private Texture background;
+
+    private GUISlider musicVolume, noiseVolume;
 
     /**
      * Option overlay class constructor.
@@ -114,6 +118,28 @@ public class OptionOverlay extends Overlay {
             }
         };
         background = new Texture("/textures/menu/background.png");
+
+        musicVolume = new GUISlider(
+                new Vec2(Window.width*0.20f, Window.height*0.41f) ,
+                new Vec2(Window.width*0.125f, Window.height*0.1f),
+                TextManager.OPTIONS,6, StaticFonts.monofonto, textColor, hoverTextColor,0,100, Config.getMusicVolume()
+        ){
+            @Override
+            public void action () {
+                SoundManager.setMusicVolume((int)value);
+            }
+        };
+
+        noiseVolume = new GUISlider(
+                new Vec2(Window.width*0.20f, Window.height*0.55f) ,
+                new Vec2(Window.width*0.125f, Window.height*0.1f),
+                TextManager.OPTIONS,7, StaticFonts.monofonto, textColor, hoverTextColor,0,100, Config.getNoiseVolume()
+        ){
+            @Override
+            public void action () {
+                SoundManager.setNoiseVolume((int)value);
+            }
+        };
     }
 
     /**
@@ -125,6 +151,8 @@ public class OptionOverlay extends Overlay {
         language.update();
         spew.update();
         quit.update();
+        musicVolume.update();
+        noiseVolume.update();
     }
 
     /**
@@ -139,6 +167,8 @@ public class OptionOverlay extends Overlay {
         language.display();
         spew.display();
         quit.display();
+        musicVolume.display();
+        noiseVolume.display();
     }
 
     /**
@@ -165,5 +195,8 @@ public class OptionOverlay extends Overlay {
         spew.unload();
         quit.unload();
         background.unload();
+
+        musicVolume.unload();
+        noiseVolume.unload();
     }
 }

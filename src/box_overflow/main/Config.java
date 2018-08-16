@@ -1,5 +1,7 @@
 package box_overflow.main;
 
+import box_overflow.screen.GameManager;
+import box_overflow.sound.SoundManager;
 import box_overflow.util.FileMethods;
 import box_overflow.util.XmlReader;
 
@@ -12,7 +14,6 @@ import java.io.File;
  * @version 1.0
  */
 public class Config {
-
 
     private static String projectPath;
     private static int currentWindowWidth;
@@ -74,6 +75,8 @@ public class Config {
 
         // Load configurationss
         XmlReader.loadConfig();
+        SoundManager.setMusicVolume(musicVolume);
+        SoundManager.setNoiseVolume(noiseVolume);
     }
 
 

@@ -1,10 +1,10 @@
 package box_overflow.screen.screens;
 
-import box_overflow.inputs.KeyboardManager;
 import box_overflow.main.Config;
 import box_overflow.screen.overlay.HelpOverlay;
 import box_overflow.screen.render.texture.Texture;
 import box_overflow.screen.render.texture.TextureRenderer;
+import box_overflow.sound.Sound;
 import box_overflow.util.TextManager;
 import box_overflow.util.math.Color4;
 import box_overflow.util.math.Vec2;
@@ -27,7 +27,7 @@ import static org.lwjgl.glfw.GLFW.*;
  */
 public class MenuScreen extends Screen {
 
-    FontRenderer title, credit;
+    private FontRenderer title, credit;
 
     private FontRenderer[] levels;
     private int currentMap;
@@ -41,6 +41,8 @@ public class MenuScreen extends Screen {
     private Texture win, play, lock;
     private Texture[] textures;
     private float offset = Window.width*0.10f;
+
+    private String music = "menu-music";
 
     /**
      * Menu screen class constructor.
@@ -201,6 +203,7 @@ public class MenuScreen extends Screen {
                     break;
             }
         }
+
         placeFont();
         GameManager.CAMERA.setPosition(0,0,false);
         title = new FontRenderer("Box overflow", StaticFonts.monofonto, Window.width*0.06f,
@@ -208,6 +211,9 @@ public class MenuScreen extends Screen {
         credit = new FontRenderer("Game created by MightyCode and TheQFM", StaticFonts.IBM, Window.width*0.020f,
                 new Vec2(Window.width*0.5f, Window.height*0.90f), Color4.BLACK.copy());
         oHelp = new HelpOverlay(this);
+
+        GameManager.soundManager.addSound("resources/sfx/music1.ogg", Sound.MUSIC, music, true);
+        GameManager.soundManager.play(music);
     }
 
     /**
@@ -321,5 +327,6 @@ public class MenuScreen extends Screen {
         win.unload();
         play.unload();
         lock.unload();
+        GameManager.soundManager.remove(music);
     }
 }

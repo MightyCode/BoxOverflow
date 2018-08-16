@@ -6,6 +6,10 @@ import box_overflow.util.Timer;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowFocusCallbackI;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
@@ -13,6 +17,8 @@ import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.ALC10.*;
+import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
@@ -78,6 +84,8 @@ public class Window implements GLFWWindowFocusCallbackI {
      */
     private static final double FRAME_TIME = SECOND / FPS;
 
+    private static long  device, context;
+
     public static Config config;
 
     /**
@@ -106,6 +114,15 @@ public class Window implements GLFWWindowFocusCallbackI {
             throw new IllegalStateException("Unable to initialize GLFW");
 
         createNewWindow();
+        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+        device            = alcOpenDevice(defaultDeviceName);
+
+        int[] attributes = {0};
+        context    = alcCreateContext(device, attributes);
+        alcMakeContextCurrent(context);
+
+        ALCCapabilities alcCapabilities = ALC.createCapabilities(device);
+        ALCapabilities alCapabilities  = AL.createCapabilities(alcCapabilities);
     }
 
     /**
@@ -237,6 +254,11 @@ public class Window implements GLFWWindowFocusCallbackI {
         // Terminate GLFW and free the error callback
         glfwTerminate();
         Objects.requireNonNull(glfwSetErrorCallback(null)).free();
+
+        // Terminate openAl
+        alcDestroyContext(context);
+        alcCloseDevice(device);
+
         System.exit(0);
     }
 
