@@ -56,7 +56,7 @@ public class Player extends Echaracter {
 		super.update();
 
 		if (GameManager.inputsManager.inputPressed(5) && gameScreen.getState() == GameScreen.STATE_NORMAL) {
-			GameScreen.lvm.load();
+			GameScreen.lvm.reset();
 		}
 
 		if (GameManager.inputsManager.inputPressed(6)){
@@ -146,6 +146,6 @@ public class Player extends Echaracter {
 
 	public void died(){
 		delta = new Vec2();
-		GameScreen.lvm.load();
+		GameScreen.lvm.reset();
 	}
 }

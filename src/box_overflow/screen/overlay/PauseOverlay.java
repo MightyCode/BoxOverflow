@@ -104,7 +104,7 @@ public class PauseOverlay extends Overlay{
      */
     public void update(){
         if(GameManager.inputsManager.inputPressed(0)) {
-            Window.gameManager.setScreen(GameScreen.STATE_NORMAL);
+            Window.gameManager.setState(GameScreen.STATE_NORMAL);
         }
 
         continuer.update();

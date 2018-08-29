@@ -76,10 +76,16 @@ public class LevelManager {
     }
 
     public void load(){
+        currentLevel = Config.getCurrentMap();
         level.setText("Level : " + String.valueOf(Config.getCurrentMap()));
+        reset();
         zoom = true;
         discover = true;
-        GameScreen.entityManager.getPlayer().stop();
+        GameScreen.tile = GameScreen.MAX_GAMETILESIZE;
+        time = 60 * 5 / blockToPose;
+    }
+
+    public void reset(){
         count = 0;
         counter = 0;
         tcounter = 0;
@@ -88,14 +94,12 @@ public class LevelManager {
         death = false;
         transition = false;
         win = false;
-        currentLevel = Config.getCurrentMap();
+        GameScreen.entityManager.getPlayer().stop();
         currentMap = XmlReader.loadMap(currentLevel);
         chargeConfig();
         GameScreen.entityManager.setPosition(begin);
         path = new Vec2[blockToPose];
         blockToAdd = new ArrayList<>();
-        GameScreen.tile = GameScreen.MAX_GAMETILESIZE;
-        time = 60 * 5 / blockToPose;
     }
 
     private void begin(){
