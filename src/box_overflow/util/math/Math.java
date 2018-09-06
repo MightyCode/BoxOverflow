@@ -12,7 +12,7 @@ public class Math {
 	/**
 	 * Calculate the position of a number in the first interval to transpose this number in an second interval.
 	 *
-	 * @param x The number in the first interval.
+	 * @param x The number in the first interval between a and b.
 	 * @param a First number of the first interval.
 	 * @param b Latest number of the first interval.
 	 * @param c First number of the second interval..

@@ -263,7 +263,7 @@ public class MenuScreen extends Screen {
 
                 for(int i = 0; i < Config.getNumberOfMap(); i++){
                     textures[i].bind();
-                    TextureRenderer.image(((i+1) * offset) - Window.width*0.022f,
+                    TextureRenderer.image(((i+1) * offset) - Window.width*0.025f,
                             Window.height*0.325f , Window.width*0.05f, Window.width*0.05f);
                     levels[i].render();
                 }
@@ -295,7 +295,7 @@ public class MenuScreen extends Screen {
     private void placeFont(){
         float size = 0.03f;
         for(int i = 0; i < Config.getNumberOfMap(); i++){
-            Vec2 place = new Vec2((i+1) * offset  ,Window.height*0.30f);
+            Vec2 place = new Vec2((i+1) * offset,Window.height*0.30f);
             if(i+1 != currentMap){
                 levels[i] = new FontRenderer(String.valueOf(i+1), StaticFonts.monofonto, Window.width*0.02f,
                         place, Color4.BLACK.copy());

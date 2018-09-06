@@ -19,13 +19,13 @@ public class Camera {
      * Map position x.
      * This variable contains the position y of the beginning of the rendering of the map.
      */
-    private int posX;
+    private float posX;
 
     /**
      * Map position y.
      * This variable contains the position y of the beginning of the rendering of the map.
      */
-    private int posY;
+    private float posY;
 
     /**
      * Tween.
@@ -48,12 +48,6 @@ public class Camera {
 
     private boolean breaks;
 
-    /**
-     * Maximal position y of camera.
-     * This variable contains the maximal position y of the camera use to stop the scrolling.
-     */
-    private int yMax;
-
     public Camera(int posX, int posY){
         this.posX = posX;
         this.posY = posY;
@@ -65,8 +59,8 @@ public class Camera {
             return;
         }
 
-        int posX = (int)( Window.width / 2 - user.getPos().getX()*GameScreen.tile + ((Player)user).getDelta().getX());
-        int posY = (int)( Window.height / 2 - user.getPos().getY()* GameScreen.tile + ((Player)user).getDelta().getY ());
+        float posX = ( Window.width / 2 - user.getPos().getX()*GameScreen.tile + ((Player)user).getDelta().getX());
+        float posY = ( Window.height / 2 - user.getPos().getY()* GameScreen.tile + ((Player)user).getDelta().getY ());
         setPosition(posX, posY, isTween);
         breaks = false;
     }
@@ -76,10 +70,10 @@ public class Camera {
         float newTweenX = (isTween)? tweenX : 1;
         float newTweenY = (isTween)? tweenY : 1;
 
-        glTranslatef((int)((posX - this.posX) * newTweenX),(int)((posY - this.posY) * newTweenY),0);
+        glTranslatef(((posX - this.posX) * newTweenX),((posY - this.posY) * newTweenY),0);
 
-        this.posX += (int)((posX - this.posX) * newTweenX);
-        this.posY += (int)((posY - this.posY) * newTweenY);
+        this.posX += ((posX - this.posX) * newTweenX);
+        this.posY += ((posY - this.posY) * newTweenY);
     }
 
     /**
@@ -107,7 +101,7 @@ public class Camera {
      *
      * @return position x
      */
-    public int getPosX() {
+    public float getPosX() {
         return posX;
     }
 
@@ -116,7 +110,7 @@ public class Camera {
      *
      * @return Position y.
      */
-    public int getPosY() {
+    public float getPosY() {
         return posY;
     }
 
