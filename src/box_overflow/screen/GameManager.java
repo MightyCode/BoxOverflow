@@ -3,6 +3,7 @@ package box_overflow.screen;
 import box_overflow.inputs.InputManager;
 import box_overflow.screen.render.Camera;
 import box_overflow.screen.render.text.StaticFonts;
+import box_overflow.screen.render.texture.TextureManager;
 import box_overflow.screen.screens.GameScreen;
 import box_overflow.screen.screens.MenuScreen;
 import box_overflow.screen.screens.Screen;
@@ -34,29 +35,14 @@ public class GameManager {
     public static final int GAMESCREEN = 1;
 
     /**
-     * Text manager to manage every text on different language for the game.
+     * Different managers of the game
      */
     public static TextManager textManager;
-
-    /**
-     * Sound manager to manage the sound on the game.
-     */
     public static SoundManager soundManager;
-
-    /**
-     * Input manager to manage the inputs related to the actions of the player.
-     */
     public static InputManager inputsManager;
-
-    /**
-     * Keyboard manager to manage the keyboard.
-     */
     public static KeyboardManager keyboardManager;
-
-    /**
-     * Input manager to manage the mouse.
-     */
     public static MouseManager mouseManager;
+    public static TextureManager texManager;
 
     /**
      * The camera of the game.
@@ -74,6 +60,7 @@ public class GameManager {
         inputsManager = new InputManager(input);
         keyboardManager = new KeyboardManager();
         mouseManager = new MouseManager();
+        texManager = new TextureManager();
 
         // Load the fist screen
         currentScreen = (new MenuScreen(this));
@@ -139,6 +126,7 @@ public class GameManager {
         currentScreen = null;
         StaticFonts.unload();
         GameManager.soundManager.unload();
+        texManager.state();
     }
 
     public Screen getScreen(){
