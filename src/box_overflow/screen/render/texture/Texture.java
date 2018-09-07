@@ -180,12 +180,12 @@ public class Texture {
     public void unload() {
         if (isTextureLoaded()) {
             glDeleteTextures(texId.getId());
+            GameManager.texManager.remove(texId);
             loaded = false;
             System.out.println("Texture num : " + texId.getId() + " , unloaded.");
         } else {
             System.err.println("[Error] texture::unload() Unloading an already unloaded texture.");
         }
-        GameManager.texManager.remove(texId);
     }
 
     /**

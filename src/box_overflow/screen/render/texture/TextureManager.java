@@ -18,7 +18,6 @@ public class TextureManager {
     }
 
     public void state(){
-
         if(textureIds.size()>0){
             System.out.println("\u001B[31m\nRemaining textures : " + textureIds.size() + "");
             System.out.println("\n::::::::::::::::::::");
