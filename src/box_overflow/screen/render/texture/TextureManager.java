@@ -1,5 +1,7 @@
 package box_overflow.screen.render.texture;
 
+import box_overflow.main.Window;
+
 import java.util.ArrayList;
 
 public class TextureManager {
@@ -18,15 +20,24 @@ public class TextureManager {
     }
 
     public void state(){
+        Window.console.println("\n"+ textureIds.size()+" Textures currently load :");
+        Window.console.println("\n::::::::::::::::::::");
+        for(TextureId texx : textureIds) {
+            Window.console.println("Texture " + texx.getId() + ", from " + texx.getPath());
+        }
+        Window.console.println("::::::::::::::::::::\n\u001B[30m");
+    }
+
+    public void endState(){
         if(textureIds.size()>0){
-            System.out.println("\u001B[31m\nRemaining textures : " + textureIds.size() + "");
-            System.out.println("\n::::::::::::::::::::");
+            Window.console.println("\u001B[31m\nRemaining textures don't unload : " + textureIds.size() + "");
+            Window.console.println("\n::::::::::::::::::::");
             for(TextureId texx : textureIds) {
-                System.out.println("Texture " + texx.getId() + ", from " + texx.getPath());
+                Window.console.println("Texture " + texx.getId() + ", from " + texx.getPath());
             }
-            if(textureIds.size()>0) System.out.println("::::::::::::::::::::\n\u001B[30m");
-        }else{
-            System.out.println("\u001B[32m\nNo remaining textures\u001B[30m\n");
+            Window.console.println("::::::::::::::::::::\n\u001B[30m");
+        } else{
+            Window.console.println("\u001B[32m\nNo remaining textures\u001B[30m\n");
         }
     }
 }

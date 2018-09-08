@@ -4,8 +4,6 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 import static org.lwjgl.openal.AL10.*;
-import static org.lwjgl.openal.AL10.AL_BUFFER;
-import static org.lwjgl.openal.AL10.alSourcei;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 import static org.lwjgl.system.MemoryStack.stackMallocInt;
 import static org.lwjgl.system.MemoryStack.stackPop;
@@ -76,7 +74,6 @@ public class Sound {
 
     public void pause(){
         float volume = SoundManager.getVolume(type);
-        System.out.println(volume);
         //Assign the sound we just loaded to the source
         alSourcef(sourcePointer, AL_GAIN, volume);
         alSourcePause(sourcePointer);

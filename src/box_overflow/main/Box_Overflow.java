@@ -8,6 +8,8 @@ package box_overflow.main;
  */
 public class Box_Overflow {
 
+    public static final boolean admin = System.getenv("JAVA_DEV_ADMIN").equals("la couille est dans le potage");
+
     /**
      * Window.
      * This global variable contains all of the main game structure.

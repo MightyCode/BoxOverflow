@@ -3,6 +3,7 @@ package box_overflow.entity;
 import box_overflow.entity.Eobject.Emoveable;
 import box_overflow.entity.Eobject.Eobject;
 import box_overflow.entity.type.Player;
+import box_overflow.main.Window;
 import box_overflow.screen.GameManager;
 import box_overflow.util.math.Vec2;
 
@@ -82,7 +83,7 @@ public class EntityManager {
      * Remove all of the entity.
      */
     public void removeAll(){
-        System.out.println("Clear " + objects.size() + " entities.");
+        Window.console.println("Clear " + objects.size() + " entities.");
         for(int i = 0; i < objects.size(); i++){
             objects.get(0).unload();
             objects.remove(0);

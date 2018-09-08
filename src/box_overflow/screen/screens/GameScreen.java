@@ -67,7 +67,7 @@ public class GameScreen extends Screen {
     public GameScreen(GameManager gameManager) {
         super(gameManager);
         Render.setClearColor(new Color4(0.1f, 0.1f, 0.1f, 1f));
-        System.out.println("\n-------------------------- \n");
+        Window.console.println("\n-------------------------- \n");
 
         /* Init gameScreen's variables */
         // Init screen vars

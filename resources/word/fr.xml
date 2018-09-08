@@ -2,7 +2,7 @@
 <word>
     <info language="fr"/>
     <!--  0: menu -->
-    <screen id="0" number="7">
+    <screen id="0">
         <sentence
                 s0="Box Overflow"
                 s1="Play"
@@ -15,7 +15,7 @@
     </screen>
 
     <!--  1: Pause/Escape overlay -->
-    <screen id="1" number="4">
+    <screen id="1">
         <sentence
                 s0="Pause"
                 s1="Continuer à jouer"
@@ -25,18 +25,18 @@
     </screen>
 
     <!--  2 : Game overlay -->
-    <screen id="2" number="1">
+    <screen id="2">
         <sentence
                 s0="Appuyer sur entrée pour commencer"
         />
     </screen>
 
     <!--  3 - ++ : Option overlay -->
-    <screen id="3" number="9">
+    <screen id="3">
         <sentence
                 s0="General"
                 s1="Vidéo"
-                s2=""
+                s2=" "
                 s3="Mode suivi"
                 s4="En français"
                 s5="Quitter"
@@ -47,7 +47,7 @@
     </screen>
 
     <!--  4 - ++ : Win overlay -->
-    <screen id="4" number="5">
+    <screen id="4">
         <sentence
                 s0="A court d'epace"
                 s1="Prochain niveau"
@@ -58,7 +58,7 @@
     </screen>
 
     <!--  5 - ++ : help overlay -->
-    <screen id="5" number="6">
+    <screen id="5">
         <sentence
                 s0="Aide"
                 s1="Deplacement"

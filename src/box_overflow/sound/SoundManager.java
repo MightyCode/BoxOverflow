@@ -33,7 +33,6 @@ public class SoundManager {
     }
 
     public void play(String index){
-        System.out.println("play " + index);
         sound.get(index).play();
     }
 

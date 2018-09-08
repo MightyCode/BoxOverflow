@@ -18,7 +18,6 @@ import java.util.Objects;
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.openal.ALC10.*;
-import static org.lwjgl.openal.ALC10.alcMakeContextCurrent;
 import static org.lwjgl.opengl.GL.createCapabilities;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
@@ -88,13 +87,28 @@ public class Window implements GLFWWindowFocusCallbackI {
 
     public static Config config;
 
+    public static Console console;
+
     /**
      * Window class constructor.
      * Do nothing for the moment
      */
     public Window(){
+        // Set the screen manager
+        if(!Box_Overflow.admin) {
+            console = new Console() {
+                @Override
+                public void print(String s){}
+                @Override
+                public void println(String s){}
+            };
+        } else {
+            console = new Console();
+        }
+
         // Get the game global configurations.
         config = new Config();
+
         createWindow();
         glfwSetWindowFocusCallback(windowID,this);
     }
@@ -129,7 +143,6 @@ public class Window implements GLFWWindowFocusCallbackI {
      * Create a new window.
      */
     public static void createNewWindow(){
-
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
@@ -138,8 +151,7 @@ public class Window implements GLFWWindowFocusCallbackI {
         // Create the window if fullscreen
         windowID = glfwCreateWindow(width, height, "Box Overflow", NULL, NULL);
 
-        System.out.println("\nWindow with id : "+ windowID +" created");
-
+        console.println("\nWindow with id : "+ windowID +" created \n");
 
         if (windowID == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
@@ -186,7 +198,7 @@ public class Window implements GLFWWindowFocusCallbackI {
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(windowID);
         glfwDestroyWindow(windowID);
-        System.out.println("Window with id : " + windowID + " deleted");
+        console.println("Window with id : " + windowID + " deleted");
     }
 
     /**
@@ -201,10 +213,10 @@ public class Window implements GLFWWindowFocusCallbackI {
      * Main method of game.
      */
     private static void loop() {
-        // Set the screen manager
-        gameManager = new GameManager(Config.getInputs());
         // Set render parameters
         Render.glEnable2D();
+
+        gameManager = new GameManager(Config.getInputs());
 
         int ticks = 0;
         int frames = 0;
@@ -222,7 +234,7 @@ public class Window implements GLFWWindowFocusCallbackI {
                 lastTick += TICK_TIME;
             } else if (timer.getDuration() - lastFrame >= FRAME_TIME) {
                 gameManager.display();
-                //System.out.println(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory());
+                //Window.console.println(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory());
                 glfwSwapBuffers(windowID);
                 glfwPollEvents();
                 frames++;
@@ -237,7 +249,8 @@ public class Window implements GLFWWindowFocusCallbackI {
 
             if (timer.getDuration() - lastSecond >= SECOND) {
                 glfwSetWindowTitle(windowID, "Box Overflow | FPS:" + frames);
-                ticks = frames = 0;
+                ticks = 0;
+                frames = 0;
                 lastSecond += SECOND;
             }
         }

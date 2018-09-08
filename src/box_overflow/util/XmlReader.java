@@ -1,6 +1,7 @@
 package box_overflow.util;
 
 import box_overflow.main.Config;
+import box_overflow.main.Window;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,7 +22,7 @@ public abstract class XmlReader {
 
 	public static int[][][] loadMap(int number){
 		try {
-			System.out.println(Config.MAP_PATH + String.valueOf(number) + ".xml");
+			Window.console.println(Config.MAP_PATH + String.valueOf(number) + ".xml");
 			Element root = getRoot(Config.MAP_PATH + String.valueOf(number) + ".xml");
 
 			assert root != null;
@@ -110,7 +111,10 @@ public abstract class XmlReader {
 			// Inputs configuration
 			tag = search("inputs", root);
 
-			int inputNumber = Integer.parseInt(tag.getAttribute("number"));
+			int inputNumber = 0;
+			while(!tag.getAttribute("i" + inputNumber).equals("")) {
+				inputNumber++;
+			}
 
 			int[][] inputs = new int[inputNumber][2];
 
@@ -131,7 +135,14 @@ public abstract class XmlReader {
 			Config.setSpew(tag.getAttribute("spew").equals("1"));
 
 			tag = search("save",root);
-			Config.setNumberOfMap(Integer.parseInt(tag.getAttribute("numbmap")));
+			int nbMap = 1;
+			while(!tag.getAttribute("map" +  nbMap).equals("")) {
+				nbMap++;
+			}
+
+			nbMap--;
+			Config.setNumberOfMap(nbMap);
+
 			int[] mapConcluded = new int[Config.getNumberOfMap()];
 			int last = 1;
 			for(int i = 0 ; i < mapConcluded.length; i++){
@@ -265,8 +276,12 @@ public abstract class XmlReader {
 			String[][] word = new String[tag.getLength()][];
 			for(int i = 0 ; i < tag.getLength(); i++){
 				Element subRoot = (Element)tag.item(i);
-				int size = Integer.parseInt(subRoot.getAttribute("number"));
 				subRoot = (Element) subRoot.getChildNodes().item(1);
+				int size = 0;
+				while(!subRoot.getAttribute("s" + size).equals("")) {
+					size++;
+				}
+
 				word[i] = new String[size];
 				for(int a = 0; a < size; a++){
 					word[i][a] = subRoot.getAttribute("s"+a);

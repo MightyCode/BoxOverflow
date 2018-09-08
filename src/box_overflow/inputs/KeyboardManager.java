@@ -2,6 +2,8 @@ package box_overflow.inputs;
 
 import box_overflow.main.Window;
 
+import java.util.Arrays;
+
 import static org.lwjgl.glfw.GLFW.glfwGetKey;
 
 /**
@@ -35,10 +37,8 @@ public class KeyboardManager {
      * Instance the class.
      */
     public KeyboardManager(){
-        for(int i = 0; i < Keys; i++) {
-            state[i] = false;
-            tempState[i] = false;
-        }
+        Arrays.fill(state, false);
+        Arrays.fill(tempState, false);
     }
 
     /**
@@ -63,7 +63,6 @@ public class KeyboardManager {
             tempState[keyID] = true;
             return true;
         }
-
         return false;
     }
 

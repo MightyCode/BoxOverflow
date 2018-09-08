@@ -181,7 +181,7 @@ public class OptionOverlay extends Overlay {
      * Unload the overlay.
      */
     public void unload() {
-        System.out.println("\n-------------------------- \n");
+        Window.console.println("\n-------------------------- \n");
         // Textures
         option.unload();
 

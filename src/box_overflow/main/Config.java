@@ -1,6 +1,5 @@
 package box_overflow.main;
 
-import box_overflow.screen.GameManager;
 import box_overflow.sound.SoundManager;
 import box_overflow.util.FileMethods;
 import box_overflow.util.XmlReader;
@@ -15,7 +14,6 @@ import java.io.File;
  */
 public class Config {
 
-    private static String projectPath;
     private static int currentWindowWidth;
     private static int currentWindowHeight;
     private static int[][] inputs;
@@ -36,29 +34,27 @@ public class Config {
      * Class constructor.
      */
     public Config(){
-        // Information
-        projectPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 
         // If the directory don't exists
         File test = new File("data/");
         if (!test.exists() && !test.isDirectory()){
-            System.out.println("Create file Data");
+            Window.console.println("Create file Data");
             File config = new File("data/config");
             config.mkdirs();
 
             if(!FileMethods.copy("resources/config/configOriginal.xml","data/config/config.xml")){
-                System.out.println("Error on creation of Data");
+                Window.console.println("Error on creation of Data");
                 Window.exit();
             }
         }
 
         test = new File("data/config");
         if (!test.exists() && !test.isDirectory()){
-            System.out.println("Create file Config");
+            Window.console.println("Create file Config");
             File config = new File("data/config");
             config.mkdirs();
             if(!FileMethods.copy("resources/config/configOriginal.xml","data/config/config.xml")){
-                System.out.println("Error on creation of config");
+                Window.console.println("Error on creation of config");
                 Window.exit();
             }
         }
@@ -66,9 +62,9 @@ public class Config {
 
         test = new File(Config.CONFIG_PATH);
         if (!test.exists() && !test.isDirectory()){
-            System.out.println("Create file Config.xml");
+            Window.console.println("Create file Config.xml");
             if(!FileMethods.copy("resources/config/configOriginal.xml","data/config/config.xml")){
-                System.out.println("Error on creation of Config.xml");
+                Window.console.println("Error on creation of Config.xml");
                 Window.exit();
             }
         }

@@ -71,6 +71,7 @@ public class GameManager {
      * Update the current screen.
      */
     public void update() {
+        if(inputsManager.inputPressed(7)) texManager.state();
         currentScreen.update();
         inputsManager.dispose();
     }
@@ -126,7 +127,7 @@ public class GameManager {
         currentScreen = null;
         StaticFonts.unload();
         GameManager.soundManager.unload();
-        texManager.state();
+        texManager.endState();
     }
 
     public Screen getScreen(){

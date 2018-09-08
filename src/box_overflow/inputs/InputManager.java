@@ -49,7 +49,6 @@ public class InputManager {
     public boolean input(int inputs){
         if(type[inputs] == 0) return KeyboardManager.key(this.inputs[inputs]);
         else return MouseManager.button(this.inputs[inputs]);
-
     }
 
     /**
