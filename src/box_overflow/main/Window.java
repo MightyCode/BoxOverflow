@@ -151,7 +151,7 @@ public class Window implements GLFWWindowFocusCallbackI {
         // Create the window if fullscreen
         windowID = glfwCreateWindow(width, height, "Box Overflow", NULL, NULL);
 
-        console.println("\nWindow with id : "+ windowID +" created \n");
+        console.println("\u001B[33m\nWindow with id : "+ windowID +" created\n\u001B[30m");
 
         if (windowID == NULL)
             throw new RuntimeException("Failed to create the GLFW window");
@@ -198,7 +198,7 @@ public class Window implements GLFWWindowFocusCallbackI {
         // Free the window callbacks and destroy the window
         glfwFreeCallbacks(windowID);
         glfwDestroyWindow(windowID);
-        console.println("Window with id : " + windowID + " deleted");
+        console.println("\u001B[33mWindow with id : " + windowID + " deleted\n\u001B[30m");
     }
 
     /**
