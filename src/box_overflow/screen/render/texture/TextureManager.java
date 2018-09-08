@@ -20,7 +20,7 @@ public class TextureManager {
     }
 
     public void state(){
-        Window.console.println("\n"+ textureIds.size()+" Textures currently load :");
+        Window.console.println("\u001B[34m\n"+ textureIds.size()+" Textures currently load :");
         Window.console.println("\n::::::::::::::::::::");
         for(TextureId texx : textureIds) {
             Window.console.println("Texture " + texx.getId() + ", from " + texx.getPath());
