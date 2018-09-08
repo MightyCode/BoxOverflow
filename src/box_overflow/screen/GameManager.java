@@ -29,7 +29,7 @@ public class GameManager {
 
     /**
      * Screen's states.
-     * These static final variable counting the different state of screen.
+     * These static final variable counting the different endState of screen.
      */
     public static final int MENUSCREEN = 0;
     public static final int GAMESCREEN = 1;

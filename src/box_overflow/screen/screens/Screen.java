@@ -18,7 +18,7 @@ public abstract class Screen {
     protected GameManager screenManager;
 
     /**
-     * Screen state.
+     * Screen endState.
      * This variable contains the different states of game.
      */
     protected int screenState = 0;
@@ -50,7 +50,7 @@ public abstract class Screen {
     }
 
     /**
-     * Base architecture of setting state method
+     * Base architecture of setting endState method
      */
     public void setState(int newState){
         screenState = newState;

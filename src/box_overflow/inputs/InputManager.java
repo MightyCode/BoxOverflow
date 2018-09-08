@@ -40,7 +40,7 @@ public class InputManager {
     }
 
     /**
-     * Return the state of input called.
+     * Return the endState of input called.
      *
      * @param inputs Inputs's ID.
      *

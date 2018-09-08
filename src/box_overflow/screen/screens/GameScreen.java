@@ -34,7 +34,7 @@ public class GameScreen extends Screen {
 
     /**
      * Game's states.
-     * These static final variable counting the different state of game.
+     * These static final variable counting the different endState of game.
      */
     public static final int STATE_NORMAL = 0;
     public static final int STATE_PAUSE = 1;
@@ -98,7 +98,7 @@ public class GameScreen extends Screen {
     }
 
     /**
-     * Update the screen in terms of the game's state.
+     * Update the screen in terms of the game's endState.
      */
     public void update() {
         switch (screenState) {
@@ -139,7 +139,7 @@ public class GameScreen extends Screen {
     }
 
     /**
-     * Display the screen in terms of the game'state
+     * Display the screen in terms of the game'endState
      */
     public void display() {
         // clear the framebuffer
@@ -184,7 +184,7 @@ public class GameScreen extends Screen {
     }
 
     /**
-     * If the focus ins't on the game, the normal state change to be the escape state.
+     * If the focus ins't on the game, the normal endState change to be the escape endState.
      * @param b The focus.
      */
     public void focus(boolean b) {

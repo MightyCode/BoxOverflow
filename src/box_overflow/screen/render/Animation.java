@@ -60,7 +60,7 @@ public class Animation {
 	}
 
 	/**
-	 * Update the animation's state.
+	 * Update the animation's endState.
 	 *
 	 */
 	public void update() {

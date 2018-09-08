@@ -21,14 +21,14 @@ public class KeyboardManager {
     private static final int Keys = 512;
 
     /**
-     * Keys state.
-     * This class contains the state of every keys.
+     * Keys endState.
+     * This class contains the endState of every keys.
      */
     private final boolean[] state = new boolean[Keys];
 
     /**
-     * Temp keys state.
-     * This class contains the state of every keys in the previous frame.
+     * Temp keys endState.
+     * This class contains the endState of every keys in the previous frame.
      */
     private final boolean[] tempState = new boolean[Keys];
 
@@ -42,7 +42,7 @@ public class KeyboardManager {
     }
 
     /**
-     * Return the state of key called.
+     * Return the endState of key called.
      *
      * @param keyID Key's ID.
      *

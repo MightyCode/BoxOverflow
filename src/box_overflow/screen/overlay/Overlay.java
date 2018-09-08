@@ -13,7 +13,7 @@ import box_overflow.screen.screens.Screen;
 public abstract class Overlay {
 
     /**
-     * The state of the overlay.
+     * The endState of the overlay.
      */
     public int overlayState;
     /**
@@ -49,15 +49,15 @@ public abstract class Overlay {
     }
 
     /**
-     * Set the state of the screen which have instance the overlay.
+     * Set the endState of the screen which have instance the overlay.
      */
     public static void setScreenState(int newsState){
         Window.gameManager.setState(newsState);
     }
 
     /**
-     * Change the state of the overlay.
-     * @param newState The new state.
+     * Change the endState of the overlay.
+     * @param newState The new endState.
      */
     public void setState(int newState){overlayState = newState;}
 

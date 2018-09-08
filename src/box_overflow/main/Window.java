@@ -279,7 +279,7 @@ public class Window implements GLFWWindowFocusCallbackI {
      * Call the manager that the focus of the window as change.
      *
      * @param l Je n'en sais rien.
-     * @param b The new state.
+     * @param b The new endState.
      */
     @Override
     public void invoke(long l, boolean b) {

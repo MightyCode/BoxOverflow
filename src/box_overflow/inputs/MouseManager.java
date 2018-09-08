@@ -23,14 +23,14 @@ public class MouseManager {
     private static final int MOUSE_BUTTONS = 8;
 
     /**
-     * Buttons state.
-     * This class contains the state of every keys.
+     * Buttons endState.
+     * This class contains the endState of every keys.
      */
     private final boolean[] state = new boolean[MOUSE_BUTTONS];
 
     /**
-     * Temp buttons state.
-     * This class contains the state of every keys in the previous frame.
+     * Temp buttons endState.
+     * This class contains the endState of every keys in the previous frame.
      */
     private final boolean[] tempState = new boolean[MOUSE_BUTTONS];
 
@@ -46,11 +46,11 @@ public class MouseManager {
     }
 
     /**
-     * Return the state of key called.
+     * Return the endState of key called.
      *
      * @param buttonID button's ID.
      *
-     * @return state of the button.
+     * @return endState of the button.
      */
     public static boolean button(int buttonID){
         return glfwGetMouseButton(Window.windowID, buttonID) == 1;
