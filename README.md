@@ -1,5 +1,5 @@
 ## Présentation
-Jeu dans lequel vous remplisez une salle avec vos boites. Mais des obstacles vont venir sur votre chemin. Soyez malins !
+Jeu dans lequel vous remplissez une salle avec des boites qui sont créées dans votre passage. Mais des obstacles vont venir sur votre chemin. Soyez malins !
 Jeu créé par MightyCode et The QFM
 
 ## Infos
