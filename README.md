@@ -2,7 +2,7 @@
 Jeu dans lequel vous remplissez une salle avec des boites qui sont créées dans votre passage. Mais des obstacles vont venir sur votre chemin. Soyez malins !
 Jeu créé par MightyCode et The QFM
 
-![Presentation Box Overflow](https://data.bazin-maxence.tk/presentation-boxoverflow.png)
+![Presentation Box Overflow](https://github.com/MightyCode/data/blob/master/presentation-boxoverflow.png)
 
 
 ## Infos
